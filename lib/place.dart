@@ -1,38 +1,36 @@
 import 'package:flutter/material.dart';
-import 'interactive_map.dart';
+import "main.dart";
+import "interactive_map.dart";
 
-void main() {
-  runApp(const MaterialApp(
-    debugShowCheckedModeBanner: false,
-    home: App(),
-  ));
-}
+class Place extends StatefulWidget {
+  const Place({Key? key, required this.placeName, this.placeRegion})
+      : super(key: key);
 
-class App extends StatefulWidget {
-  const App({Key? key}) : super(key: key);
-
-  @override
-  State<App> createState() => _AppState();
-}
-
-class _AppState extends State<App> {
-  int currentIndex = 0;
+  // ignore: prefer_typing_uninitialized_variables
+  final placeName;
+  // ignore: prefer_typing_uninitialized_variables
+  final placeRegion;
 
   @override
+  State<Place> createState() => _PlaceState();
+}
+
+class _PlaceState extends State<Place> {
+  int currentIndex = 1;
+
+  @override
+  Place get widget => super.widget;
+
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.shifting,
-        selectedItemColor: Colors.white,
-        unselectedItemColor: Colors.white54,
         items: const [
           BottomNavigationBarItem(
             label: "Home",
             icon: Icon(
               Icons.home,
-              size: 30,
+              size: 25,
             ),
-            backgroundColor: Color.fromARGB(255, 31, 41, 114),
           ),
           BottomNavigationBarItem(
             label: "Explore",
@@ -40,7 +38,6 @@ class _AppState extends State<App> {
               Icons.explore,
               size: 25,
             ),
-            backgroundColor: Color.fromARGB(255, 48, 83, 49),
           ),
           BottomNavigationBarItem(
             label: "Info",
@@ -63,7 +60,7 @@ class _AppState extends State<App> {
           });
         },
       ),
-      body: const Center(child: Text("Home")),
+      body: Center(child: Text(widget.placeName + " " + widget.placeRegion)),
     );
   }
 }

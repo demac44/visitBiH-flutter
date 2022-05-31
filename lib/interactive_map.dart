@@ -25,19 +25,51 @@ class _InteractiveMapState extends State<InteractiveMap> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Center(
+          child: Column(
+            children: const [
+              Text(
+                "Select on map",
+                style: TextStyle(fontSize: 24),
+              ),
+              Text(
+                "Double click to enter region",
+                style: TextStyle(fontSize: 12),
+              ),
+            ],
+          ),
+        ),
+        backgroundColor: const Color.fromARGB(255, 48, 83, 49),
+        automaticallyImplyLeading: false,
+      ),
       bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.shifting,
+        selectedItemColor: Colors.white,
+        unselectedItemColor: Colors.white54,
         items: const [
           BottomNavigationBarItem(
             label: "Home",
-            icon: Icon(Icons.home),
+            icon: Icon(
+              Icons.home,
+              size: 25,
+            ),
+            backgroundColor: Color.fromARGB(255, 31, 41, 114),
           ),
           BottomNavigationBarItem(
             label: "Explore",
-            icon: Icon(Icons.explore),
+            icon: Icon(
+              Icons.explore,
+              size: 30,
+            ),
+            backgroundColor: ui.Color.fromARGB(255, 48, 83, 49),
           ),
           BottomNavigationBarItem(
             label: "Info",
-            icon: Icon(Icons.info),
+            icon: Icon(
+              Icons.info,
+              size: 25,
+            ),
           ),
         ],
         currentIndex: currentIndex,
@@ -60,7 +92,7 @@ class _InteractiveMapState extends State<InteractiveMap> {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => AllPlaces(reg: region)))
+                      builder: (context) => AllPlaces(region: region)))
             }
         },
         onPointerDown: (e) => notifier.value = e.localPosition,
@@ -147,24 +179,24 @@ class InteractiveMapPainter extends CustomPainter {
       for (var shape in _shapes) {
         shape.transform(matrix);
       }
-      print('new size: $_size');
     }
 
     canvas
       ..clipRect(Offset.zero & size)
-      ..drawColor(Colors.transparent, BlendMode.src);
+      ..drawColor(const Color.fromARGB(255, 84, 145, 86), BlendMode.src);
     var selectedShape;
     for (var shape in _shapes) {
       final path = shape._transformedPath;
       final selected = path!.contains(_notifier.value);
       _paint
-        ..color = (selected ? Colors.teal : shape._color)!
+        ..color =
+            (selected ? ui.Color.fromARGB(255, 242, 190, 0) : shape._color)!
         ..style = PaintingStyle.fill;
       canvas.drawPath(path, _paint);
       selectedShape ??= selected ? shape : null;
 
       _paint
-        ..color = Colors.grey
+        ..color = Colors.white
         ..strokeWidth = 2
         ..style = PaintingStyle.stroke;
       canvas.drawPath(path, _paint);
