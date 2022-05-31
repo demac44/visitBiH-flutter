@@ -21,6 +21,11 @@ class _AppState extends State<App> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        title: Container(child: Image.asset("assets/images/logo-visitbih.png")),
+        backgroundColor: Colors.black,
+      ),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.shifting,
         selectedItemColor: Colors.white,
@@ -32,7 +37,7 @@ class _AppState extends State<App> {
               Icons.home,
               size: 30,
             ),
-            backgroundColor: Color.fromARGB(255, 31, 41, 114),
+            backgroundColor: Colors.black,
           ),
           BottomNavigationBarItem(
             label: "Explore",

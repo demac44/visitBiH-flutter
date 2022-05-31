@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import "interactive_map.dart";
 import 'main.dart';
@@ -58,7 +57,7 @@ class _AllPlacesState extends State<AllPlaces> {
               Icons.home,
               size: 25,
             ),
-            backgroundColor: Color.fromARGB(255, 31, 41, 114),
+            backgroundColor: Colors.black,
           ),
           BottomNavigationBarItem(
             label: "Explore",
@@ -102,12 +101,14 @@ class _AllPlacesState extends State<AllPlaces> {
                       GestureDetector(
                         onTap: () {
                           Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => Place(
-                                        placeName: item["name"]["english"],
-                                        placeRegion: item["region"],
-                                      )));
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => Place(
+                                placeId: item["_id"],
+                                placeName: item["name"]["english"],
+                              ),
+                            ),
+                          );
                         },
                         child: Stack(
                           children: [
@@ -122,19 +123,19 @@ class _AllPlacesState extends State<AllPlaces> {
                                   top: BorderSide(
                                       width: 1.5,
                                       color:
-                                          Color.fromARGB(255, 179, 242, 181)),
+                                          Color.fromARGB(255, 255, 255, 255)),
                                   bottom: BorderSide(
                                       width: 1.5,
                                       color:
-                                          Color.fromARGB(255, 179, 242, 181)),
+                                          Color.fromARGB(255, 255, 255, 255)),
                                   right: BorderSide(
                                       width: 3.0,
                                       color:
-                                          Color.fromARGB(255, 179, 242, 181)),
+                                          Color.fromARGB(255, 255, 255, 255)),
                                   left: BorderSide(
                                       width: 3.0,
                                       color:
-                                          Color.fromARGB(255, 179, 242, 181)),
+                                          Color.fromARGB(255, 255, 255, 255)),
                                 ),
                                 image: DecorationImage(
                                     image: NetworkImage(item["card_img"]),

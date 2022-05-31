@@ -34,13 +34,13 @@ class _InteractiveMapState extends State<InteractiveMap> {
                 style: TextStyle(fontSize: 24),
               ),
               Text(
-                "Double click to enter region",
+                "Double click to enter a region",
                 style: TextStyle(fontSize: 12),
               ),
             ],
           ),
         ),
-        backgroundColor: const Color.fromARGB(255, 48, 83, 49),
+        backgroundColor: const Color.fromARGB(255, 31, 41, 114),
         automaticallyImplyLeading: false,
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -54,7 +54,7 @@ class _InteractiveMapState extends State<InteractiveMap> {
               Icons.home,
               size: 25,
             ),
-            backgroundColor: Color.fromARGB(255, 31, 41, 114),
+            backgroundColor: Colors.black,
           ),
           BottomNavigationBarItem(
             label: "Explore",
@@ -62,7 +62,7 @@ class _InteractiveMapState extends State<InteractiveMap> {
               Icons.explore,
               size: 30,
             ),
-            backgroundColor: ui.Color.fromARGB(255, 48, 83, 49),
+            backgroundColor: Color.fromARGB(255, 31, 41, 114),
           ),
           BottomNavigationBarItem(
             label: "Info",
@@ -183,7 +183,7 @@ class InteractiveMapPainter extends CustomPainter {
 
     canvas
       ..clipRect(Offset.zero & size)
-      ..drawColor(const Color.fromARGB(255, 84, 145, 86), BlendMode.src);
+      ..drawColor(ui.Color.fromARGB(255, 77, 87, 156), BlendMode.src);
     var selectedShape;
     for (var shape in _shapes) {
       final path = shape._transformedPath;
