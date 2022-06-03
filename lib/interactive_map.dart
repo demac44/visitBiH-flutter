@@ -65,6 +65,13 @@ class _InteractiveMapState extends State<InteractiveMap> {
             backgroundColor: Color.fromARGB(255, 31, 41, 114),
           ),
           BottomNavigationBarItem(
+            label: "Read more",
+            icon: Icon(
+              Icons.newspaper,
+              size: 25,
+            ),
+          ),
+          BottomNavigationBarItem(
             label: "Info",
             icon: Icon(
               Icons.info,

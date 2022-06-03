@@ -7,12 +7,14 @@ import 'dart:async';
 import 'package:url_launcher/url_launcher.dart';
 
 class Place extends StatefulWidget {
-  const Place({Key? key, required this.placeId, this.placeName})
+  const Place(
+      {Key? key, required this.placeId, this.placeName, this.appBarName})
       : super(key: key);
 
   // ignore: prefer_typing_uninitialized_variables
   final placeId;
   final placeName;
+  final appBarName;
 
   @override
   State<Place> createState() => _PlaceState();
@@ -53,7 +55,7 @@ class _PlaceState extends State<Place> {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 255, 255, 255),
       appBar: AppBar(
-        title: Text(widget.placeName),
+        title: Text(widget.appBarName),
         backgroundColor: const Color.fromARGB(255, 37, 98, 62),
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -76,6 +78,13 @@ class _PlaceState extends State<Place> {
               size: 30,
             ),
             backgroundColor: Color.fromARGB(255, 37, 98, 62),
+          ),
+          BottomNavigationBarItem(
+            label: "Read more",
+            icon: Icon(
+              Icons.newspaper,
+              size: 25,
+            ),
           ),
           BottomNavigationBarItem(
             label: "Info",
@@ -175,7 +184,7 @@ class _PlaceState extends State<Place> {
                     Container(
                       padding: const EdgeInsets.all(10.0),
                       child: Text(
-                        data[0]["description"]["english"],
+                        data[0]["description"][language],
                         textAlign: TextAlign.center,
                         style: const TextStyle(
                             fontSize: 18,
@@ -187,7 +196,7 @@ class _PlaceState extends State<Place> {
                       child: ElevatedButton(
                         style: ButtonStyle(
                             backgroundColor: MaterialStateProperty.all(
-                                Color.fromARGB(255, 242, 190, 0))),
+                                const Color.fromARGB(255, 242, 190, 0))),
                         onPressed: () => {
                           _launchUrl(data[0]["location"]["google_maps_link"])
                         },

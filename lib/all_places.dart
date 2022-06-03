@@ -69,6 +69,13 @@ class _AllPlacesState extends State<AllPlaces> {
             backgroundColor: Color.fromARGB(255, 28, 51, 100),
           ),
           BottomNavigationBarItem(
+            label: "Read more",
+            icon: Icon(
+              Icons.newspaper,
+              size: 25,
+            ),
+          ),
+          BottomNavigationBarItem(
             label: "Info",
             icon: Icon(
               Icons.info,
@@ -108,9 +115,9 @@ class _AllPlacesState extends State<AllPlaces> {
                               context,
                               MaterialPageRoute(
                                 builder: (context) => Place(
-                                  placeId: item["_id"],
-                                  placeName: item["name"]["english"],
-                                ),
+                                    placeId: item["_id"],
+                                    placeName: item["name"]["english"],
+                                    appBarName: item["name"][language]),
                               ),
                             );
                           },
@@ -135,7 +142,7 @@ class _AllPlacesState extends State<AllPlaces> {
                                 height: 300,
                                 child: Center(
                                   child: Text(
-                                    item["name"]["english"],
+                                    item["name"][language],
                                     style: const TextStyle(
                                       fontSize: 40,
                                       color: Colors.white,
