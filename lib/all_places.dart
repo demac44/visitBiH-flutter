@@ -39,12 +39,13 @@ class _AllPlacesState extends State<AllPlaces> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color.fromARGB(255, 226, 226, 226),
       appBar: AppBar(
         title: Text(
           widget.region,
           style: const TextStyle(fontSize: 25),
         ),
-        backgroundColor: const Color.fromARGB(255, 48, 83, 49),
+        backgroundColor: const Color.fromARGB(255, 28, 51, 100),
       ),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.shifting,
@@ -65,7 +66,7 @@ class _AllPlacesState extends State<AllPlaces> {
               Icons.explore,
               size: 30,
             ),
-            backgroundColor: Color.fromARGB(255, 48, 83, 49),
+            backgroundColor: Color.fromARGB(255, 28, 51, 100),
           ),
           BottomNavigationBarItem(
             label: "Info",
@@ -95,68 +96,56 @@ class _AllPlacesState extends State<AllPlaces> {
             if (snaphsot.hasData) {
               if (snaphsot.data != null) data = snaphsot.data;
               return SingleChildScrollView(
+                padding: const EdgeInsets.all(5.0),
                 child: Column(
                   children: [
                     for (var item in data)
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => Place(
-                                placeId: item["_id"],
-                                placeName: item["name"]["english"],
-                              ),
-                            ),
-                          );
-                        },
-                        child: Stack(
-                          children: [
-                            Container(
-                              foregroundDecoration:
-                                  const BoxDecoration(color: Colors.black38),
-                              width: double.infinity,
-                              height: 300,
-                              padding: const EdgeInsets.all(5.0),
-                              decoration: BoxDecoration(
-                                border: const Border(
-                                  top: BorderSide(
-                                      width: 1.5,
-                                      color:
-                                          Color.fromARGB(255, 255, 255, 255)),
-                                  bottom: BorderSide(
-                                      width: 1.5,
-                                      color:
-                                          Color.fromARGB(255, 255, 255, 255)),
-                                  right: BorderSide(
-                                      width: 3.0,
-                                      color:
-                                          Color.fromARGB(255, 255, 255, 255)),
-                                  left: BorderSide(
-                                      width: 3.0,
-                                      color:
-                                          Color.fromARGB(255, 255, 255, 255)),
+                      Container(
+                        margin: const EdgeInsets.only(top: 10.0),
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => Place(
+                                  placeId: item["_id"],
+                                  placeName: item["name"]["english"],
                                 ),
-                                image: DecorationImage(
-                                    image: NetworkImage(item["card_img"]),
-                                    fit: BoxFit.cover),
                               ),
-                            ),
-                            SizedBox(
-                              width: double.infinity,
-                              height: 300,
-                              child: Center(
-                                child: Text(
-                                  item["name"]["english"],
-                                  style: const TextStyle(
-                                    fontSize: 40,
-                                    color: Colors.white,
+                            );
+                          },
+                          child: Stack(
+                            children: [
+                              Container(
+                                foregroundDecoration: BoxDecoration(
+                                    color: Colors.black38,
+                                    borderRadius: BorderRadius.circular(20.0)),
+                                width: double.infinity,
+                                height: 300,
+                                padding: const EdgeInsets.all(5.0),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(20.0),
+                                  image: DecorationImage(
+                                      image: NetworkImage(item["card_img"]),
+                                      fit: BoxFit.cover),
+                                ),
+                              ),
+                              SizedBox(
+                                width: double.infinity,
+                                height: 300,
+                                child: Center(
+                                  child: Text(
+                                    item["name"]["english"],
+                                    style: const TextStyle(
+                                      fontSize: 40,
+                                      color: Colors.white,
+                                    ),
+                                    textAlign: TextAlign.center,
                                   ),
-                                  textAlign: TextAlign.center,
                                 ),
-                              ),
-                            )
-                          ],
+                              )
+                            ],
+                          ),
                         ),
                       ),
                   ],
@@ -165,7 +154,18 @@ class _AllPlacesState extends State<AllPlaces> {
             } else if (snaphsot.hasError) {
               return Text("${snaphsot.error}");
             }
-            return Text("data");
+            return Container(
+              color: Colors.white,
+              height: MediaQuery.of(context).size.height,
+              width: MediaQuery.of(context).size.width,
+              child: Center(
+                child: Image.asset(
+                  'assets/images/loader-waiting.gif',
+                  width: 200,
+                  height: 200,
+                ),
+              ),
+            );
           },
         ),
       ),

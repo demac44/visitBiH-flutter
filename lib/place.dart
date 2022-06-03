@@ -51,9 +51,10 @@ class _PlaceState extends State<Place> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color.fromARGB(255, 255, 255, 255),
       appBar: AppBar(
         title: Text(widget.placeName),
-        backgroundColor: const Color.fromARGB(255, 31, 41, 114),
+        backgroundColor: const Color.fromARGB(255, 37, 98, 62),
       ),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.shifting,
@@ -66,7 +67,7 @@ class _PlaceState extends State<Place> {
               Icons.home,
               size: 25,
             ),
-            backgroundColor: Color.fromARGB(255, 31, 41, 114),
+            backgroundColor: Colors.black,
           ),
           BottomNavigationBarItem(
             label: "Explore",
@@ -74,7 +75,7 @@ class _PlaceState extends State<Place> {
               Icons.explore,
               size: 30,
             ),
-            backgroundColor: Color.fromARGB(255, 31, 41, 114),
+            backgroundColor: Color.fromARGB(255, 37, 98, 62),
           ),
           BottomNavigationBarItem(
             label: "Info",
@@ -99,7 +100,7 @@ class _PlaceState extends State<Place> {
       ),
       body: SingleChildScrollView(
         child: Container(
-          color: const Color.fromARGB(255, 62, 73, 152),
+          color: const Color.fromARGB(255, 255, 255, 255),
           width: double.infinity,
           child: FutureBuilder(
             future: futureData,
@@ -172,20 +173,25 @@ class _PlaceState extends State<Place> {
                       ),
                     ),
                     Container(
-                      padding: const EdgeInsets.all(8.0),
-                      constraints: BoxConstraints(minHeight: 300),
+                      padding: const EdgeInsets.all(10.0),
                       child: Text(
                         data[0]["description"]["english"],
-                        style:
-                            const TextStyle(fontSize: 18, color: Colors.white),
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                            fontSize: 18,
+                            color: Color.fromARGB(255, 31, 31, 31)),
                       ),
                     ),
                     Container(
+                      padding: const EdgeInsets.all(10.0),
                       child: ElevatedButton(
+                        style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all(
+                                Color.fromARGB(255, 242, 190, 0))),
                         onPressed: () => {
                           _launchUrl(data[0]["location"]["google_maps_link"])
                         },
-                        child: Text("Open in google maps"),
+                        child: const Text("OPEN IN GOOGLE MAPS"),
                       ),
                     )
                   ],
@@ -193,7 +199,18 @@ class _PlaceState extends State<Place> {
               } else if (snaphsot.hasError) {
                 return Text("${snaphsot.error}");
               }
-              return Text("Loading");
+              return Container(
+                color: Colors.white,
+                height: MediaQuery.of(context).size.height - 100,
+                width: MediaQuery.of(context).size.width,
+                child: Center(
+                  child: Image.asset(
+                    'assets/images/loader-waiting.gif',
+                    width: 200,
+                    height: 200,
+                  ),
+                ),
+              );
             },
           ),
         ),

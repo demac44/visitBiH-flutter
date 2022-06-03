@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'interactive_map.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 void main() {
-  runApp(const MaterialApp(
+  runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
-    home: App(),
+    home: const App(),
+    builder: EasyLoading.init(),
   ));
 }
 
