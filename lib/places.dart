@@ -6,6 +6,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:url_launcher/url_launcher.dart';
 import "articles.dart";
+import 'about.dart';
 
 class AllPlaces extends StatefulWidget {
   const AllPlaces({Key? key, required this.region}) : super(key: key);
@@ -98,6 +99,9 @@ class _AllPlacesState extends State<AllPlaces> {
             } else if (index == 2) {
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => const Articles()));
+            } else if (index == 3) {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const About()));
             }
           });
         },
@@ -286,6 +290,9 @@ class _PlaceState extends State<Place> {
             } else if (index == 1) {
               Navigator.push(
                   context, MaterialPageRoute(builder: (context) => Articles()));
+            } else if (index == 3) {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const About()));
             }
           });
         },

@@ -4,7 +4,7 @@ import 'main.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
-import 'package:url_launcher/url_launcher.dart';
+import 'about.dart';
 
 class Articles extends StatefulWidget {
   const Articles({Key? key}) : super(key: key);
@@ -40,6 +40,7 @@ class _ArticlesState extends State<Articles> {
           style: TextStyle(fontSize: 25),
         ),
         backgroundColor: const Color.fromARGB(255, 105, 40, 101),
+        automaticallyImplyLeading: false,
       ),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.shifting,
@@ -92,6 +93,9 @@ class _ArticlesState extends State<Articles> {
             } else if (index == 2) {
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => const Articles()));
+            } else if (index == 3) {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const About()));
             }
           });
         },
@@ -276,6 +280,9 @@ class _ArticleState extends State<Article> {
             } else if (index == 2) {
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => const Articles()));
+            } else if (index == 3) {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const About()));
             }
           });
         },
@@ -289,7 +296,6 @@ class _ArticleState extends State<Article> {
             builder: (context, snaphsot) {
               if (snaphsot.hasData) {
                 if (snaphsot.data != null) data = snaphsot.data;
-
                 var sections = data["sections"];
 
                 return Column(
