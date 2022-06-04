@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'interactive_map.dart';
+import "articles.dart";
 
 void main() {
   runApp(const MaterialApp(
@@ -71,8 +72,13 @@ class _AppState extends State<App> {
               Navigator.push(
                   context, MaterialPageRoute(builder: (context) => App()));
             } else if (index == 1) {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const InteractiveMap()));
+            } else if (index == 2) {
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => InteractiveMap()));
+                  MaterialPageRoute(builder: (context) => const Articles()));
             }
           });
         },
@@ -145,7 +151,7 @@ class _HomeState extends State<Home> {
                           },
                           style: ButtonStyle(
                               backgroundColor: MaterialStateProperty.all(
-                                  const Color.fromARGB(255, 242, 190, 0))),
+                                  const Color.fromARGB(255, 255, 162, 0))),
                           child: const Text(
                             "START EXPLORING",
                             style: TextStyle(fontSize: 22),
@@ -165,6 +171,9 @@ class _HomeState extends State<Home> {
                               ),
                             );
                           },
+                          style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.all(
+                                  const Color.fromARGB(255, 71, 94, 157))),
                           child: const Text(
                             "READ ABOUT BOSNIA AND HERZEGOVINA",
                             style: TextStyle(fontSize: 16),

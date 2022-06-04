@@ -3,9 +3,10 @@ import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:path_drawing/path_drawing.dart';
-import 'package:visitbih_mobile/all_places.dart';
+import 'package:visitbih_mobile/places.dart';
 import "main.dart";
-import "all_places.dart";
+import 'places.dart';
+import "articles.dart";
 
 String region = "";
 String previousRegion = "";
@@ -86,8 +87,13 @@ class _InteractiveMapState extends State<InteractiveMap> {
               Navigator.push(
                   context, MaterialPageRoute(builder: (context) => App()));
             } else if (index == 1) {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const InteractiveMap()));
+            } else if (index == 2) {
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => InteractiveMap()));
+                  MaterialPageRoute(builder: (context) => const Articles()));
             }
           });
         },
@@ -179,7 +185,7 @@ class InteractiveMapPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     if (size != _size) {
       _size = size;
-      final fs = applyBoxFit(BoxFit.contain, Size(1000, 1000), size);
+      final fs = applyBoxFit(BoxFit.contain, const Size(1000, 1000), size);
       final r = Alignment.center.inscribe(fs.destination, Offset.zero & size);
       final matrix = Matrix4.translationValues(r.left, r.top, 0)
         ..scale(fs.destination.width / fs.source.width);
@@ -190,14 +196,15 @@ class InteractiveMapPainter extends CustomPainter {
 
     canvas
       ..clipRect(Offset.zero & size)
-      ..drawColor(ui.Color.fromARGB(255, 77, 87, 156), BlendMode.src);
+      ..drawColor(const ui.Color.fromARGB(255, 77, 87, 156), BlendMode.src);
     var selectedShape;
     for (var shape in _shapes) {
       final path = shape._transformedPath;
       final selected = path!.contains(_notifier.value);
       _paint
-        ..color =
-            (selected ? ui.Color.fromARGB(255, 242, 190, 0) : shape._color)!
+        ..color = (selected
+            ? const ui.Color.fromARGB(255, 242, 190, 0)
+            : shape._color)!
         ..style = PaintingStyle.fill;
       canvas.drawPath(path, _paint);
       selectedShape ??= selected ? shape : null;
@@ -213,7 +220,7 @@ class InteractiveMapPainter extends CustomPainter {
       region = selectedShape._label;
       _paint
         ..color = Colors.black
-        ..maskFilter = MaskFilter.blur(BlurStyle.outer, 12)
+        ..maskFilter = const MaskFilter.blur(BlurStyle.outer, 12)
         ..style = PaintingStyle.fill;
       canvas.drawPath(selectedShape._transformedPath, _paint);
       _paint.maskFilter = null;
