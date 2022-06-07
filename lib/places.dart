@@ -28,8 +28,16 @@ class _AllPlacesState extends State<AllPlaces> {
 
   Future<dynamic> fetchData() async {
     var url = Uri.parse('http://www.visitbosna.com/api/places/region');
-    var response = await http.post(url, body: {"region": widget.region});
-    return json.decode(response.body);
+    try {
+      var response = await http.post(url, body: {"region": widget.region});
+      if (response.statusCode == 200) {
+        return json.decode(response.body);
+      } else {
+        throw "Connection error!";
+      }
+    } catch (e) {
+      throw "Connection error!";
+    }
   }
 
   @override
@@ -215,11 +223,15 @@ class _PlaceState extends State<Place> {
 
   Future<dynamic> fetchData() async {
     var url = Uri.parse('http://www.visitbosna.com/api/places/place');
-    var response = await http.post(url, body: {"id": widget.placeId});
-    if (response.statusCode == 200) {
-      return json.decode(response.body);
-    } else {
-      throw Exception("Error fetching data!");
+    try {
+      var response = await http.post(url, body: {"id": widget.placeId});
+      if (response.statusCode == 200) {
+        return json.decode(response.body);
+      } else {
+        throw "Connection error!";
+      }
+    } catch (e) {
+      throw "Connection error!";
     }
   }
 

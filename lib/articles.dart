@@ -21,8 +21,16 @@ class _ArticlesState extends State<Articles> {
 
   Future<dynamic> fetchData() async {
     var url = Uri.parse('http://www.visitbosna.com/api/articles/all');
-    var response = await http.get(url);
-    return json.decode(response.body);
+    try {
+      var response = await http.get(url);
+      if (response.statusCode == 200) {
+        return json.decode(response.body);
+      } else {
+        throw "Connection error!";
+      }
+    } catch (e) {
+      throw "Connection error!";
+    }
   }
 
   @override
@@ -207,11 +215,15 @@ class _ArticleState extends State<Article> {
 
   Future<dynamic> fetchData() async {
     var url = Uri.parse('http://www.visitbosna.com/api/articles/article');
-    var response = await http.post(url, body: {"id": widget.ArticleId});
-    if (response.statusCode == 200) {
-      return json.decode(response.body);
-    } else {
-      throw Exception("Error fetching data!");
+    try {
+      var response = await http.post(url, body: {"id": widget.ArticleId});
+      if (response.statusCode == 200) {
+        return json.decode(response.body);
+      } else {
+        throw "Connection error!";
+      }
+    } catch (e) {
+      throw "Connection error!";
     }
   }
 
