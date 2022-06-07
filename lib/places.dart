@@ -53,31 +53,31 @@ class _AllPlacesState extends State<AllPlaces> {
         type: BottomNavigationBarType.shifting,
         selectedItemColor: Colors.white,
         unselectedItemColor: Colors.white54,
-        items: const [
+        items: [
           BottomNavigationBarItem(
-            label: "Home",
-            icon: Icon(
+            label: language == "english" ? "Home" : "Početna",
+            icon: const Icon(
               Icons.home,
               size: 25,
             ),
             backgroundColor: Colors.black,
           ),
           BottomNavigationBarItem(
-            label: "Explore",
-            icon: Icon(
+            label: language == "english" ? "Explore" : "Istraži",
+            icon: const Icon(
               Icons.explore,
               size: 30,
             ),
-            backgroundColor: Color.fromARGB(255, 28, 51, 100),
+            backgroundColor: const Color.fromARGB(255, 28, 51, 100),
           ),
           BottomNavigationBarItem(
-            label: "Read more",
-            icon: Icon(
+            label: language == "english" ? "Read more" : "Čitaj više",
+            icon: const Icon(
               Icons.newspaper,
               size: 25,
             ),
           ),
-          BottomNavigationBarItem(
+          const BottomNavigationBarItem(
             label: "Info",
             icon: Icon(
               Icons.info,
@@ -246,31 +246,31 @@ class _PlaceState extends State<Place> {
         type: BottomNavigationBarType.shifting,
         selectedItemColor: Colors.white,
         unselectedItemColor: Colors.white54,
-        items: const [
+        items: [
           BottomNavigationBarItem(
-            label: "Home",
-            icon: Icon(
+            label: language == "english" ? "Home" : "Početna",
+            icon: const Icon(
               Icons.home,
               size: 25,
             ),
             backgroundColor: Colors.black,
           ),
           BottomNavigationBarItem(
-            label: "Explore",
-            icon: Icon(
+            label: language == "english" ? "Explore" : "Istraži",
+            icon: const Icon(
               Icons.explore,
               size: 30,
             ),
-            backgroundColor: Color.fromARGB(255, 37, 98, 62),
+            backgroundColor: const Color.fromARGB(255, 37, 98, 62),
           ),
           BottomNavigationBarItem(
-            label: "Read more",
-            icon: Icon(
+            label: language == "english" ? "Read more" : "Čitaj više",
+            icon: const Icon(
               Icons.newspaper,
               size: 25,
             ),
           ),
-          BottomNavigationBarItem(
+          const BottomNavigationBarItem(
             label: "Info",
             icon: Icon(
               Icons.info,
@@ -390,7 +390,9 @@ class _PlaceState extends State<Place> {
                         onPressed: () => {
                           _launchUrl(data[0]["location"]["google_maps_link"])
                         },
-                        child: const Text("OPEN IN GOOGLE MAPS"),
+                        child: Text(language == "english"
+                            ? "OPEN IN GOOGLE MAPS"
+                            : "OTVORI U GOOGLE MAPS"),
                       ),
                     )
                   ],

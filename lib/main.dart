@@ -2,15 +2,17 @@ import 'package:flutter/material.dart';
 import 'interactive_map.dart';
 import "articles.dart";
 import 'about.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
-  runApp(const MaterialApp(
+  runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
-    home: App(),
+    theme: ThemeData(fontFamily: 'Raleway'),
+    home: const App(),
   ));
 }
 
-String language = "english";
+String language = "";
 
 class App extends StatefulWidget {
   const App({Key? key}) : super(key: key);
@@ -36,31 +38,31 @@ class _AppState extends State<App> {
         type: BottomNavigationBarType.shifting,
         selectedItemColor: Colors.white,
         unselectedItemColor: Colors.white54,
-        items: const [
+        items: [
           BottomNavigationBarItem(
-            label: "Home",
-            icon: Icon(
+            label: language == "english" ? "Home" : "Početna",
+            icon: const Icon(
               Icons.home,
               size: 30,
             ),
             backgroundColor: Colors.black,
           ),
           BottomNavigationBarItem(
-            label: "Explore",
-            icon: Icon(
+            label: language == "english" ? "Explore" : "Istraži",
+            icon: const Icon(
               Icons.explore,
               size: 25,
             ),
-            backgroundColor: Color.fromARGB(255, 48, 83, 49),
+            backgroundColor: const Color.fromARGB(255, 48, 83, 49),
           ),
           BottomNavigationBarItem(
-            label: "Read more",
-            icon: Icon(
+            label: language == "english" ? "Read more" : "Čitaj više",
+            icon: const Icon(
               Icons.newspaper,
               size: 25,
             ),
           ),
-          BottomNavigationBarItem(
+          const BottomNavigationBarItem(
             label: "Info",
             icon: Icon(
               Icons.info,
@@ -105,6 +107,35 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   int currentIndex = 0;
 
+  _setLanguage(lang) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    prefs.setString("language", lang);
+
+    setState(() {
+      language = lang;
+    });
+  }
+
+  _getLanguage() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if (prefs.getString("language") != null) {
+      setState(() {
+        _setLanguage(prefs.getString("language")!);
+      });
+    } else {
+      setState(() {
+        _setLanguage("english");
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _getLanguage();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -125,7 +156,7 @@ class _HomeState extends State<Home> {
               ),
               Container(
                 padding:
-                    const EdgeInsets.only(top: 20.0, left: 15.0, right: 15.0),
+                    const EdgeInsets.only(top: 15.0, left: 15.0, right: 15.0),
                 child: Center(
                   child: Column(
                     children: [
@@ -137,16 +168,26 @@ class _HomeState extends State<Home> {
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                             GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  language == "english"
-                                      ? language = "bosnian"
-                                      : language = "english";
-                                });
+                              onTap: () async {
+                                _setLanguage(language == "english"
+                                    ? "bosnian"
+                                    : "english");
                               },
-                              child: Text(
-                                language == "english" ? "BOSANSKI" : "ENGLISH",
-                                style: const TextStyle(color: Colors.white),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    border: Border.all(
+                                        color: Colors.white, width: 0.5),
+                                    borderRadius: const BorderRadius.all(
+                                      Radius.circular(5.0),
+                                    ),
+                                    color: Colors.black45),
+                                padding: const EdgeInsets.all(5.0),
+                                child: Text(
+                                  language == "english"
+                                      ? "BOSANSKI"
+                                      : "ENGLISH",
+                                  style: const TextStyle(color: Colors.white),
+                                ),
                               ),
                             ),
                           ],
@@ -157,7 +198,7 @@ class _HomeState extends State<Home> {
                             ? "The Heart-Shaped Land: Bosnia and Herzegovina"
                             : "Zemlja srcolikog oblika: Bosna i Hercegovina",
                         style:
-                            const TextStyle(color: Colors.white, fontSize: 35),
+                            const TextStyle(color: Colors.white, fontSize: 30),
                       ),
                       const SizedBox(height: 20),
                       Text(

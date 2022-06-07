@@ -29,14 +29,16 @@ class _InteractiveMapState extends State<InteractiveMap> {
       appBar: AppBar(
         title: Center(
           child: Column(
-            children: const [
+            children: [
               Text(
-                "Select on map",
-                style: TextStyle(fontSize: 24),
+                language == "english" ? "Select on map" : "Odaberite na mapi",
+                style: const TextStyle(fontSize: 24),
               ),
               Text(
-                "Double click to enter a region",
-                style: TextStyle(fontSize: 12),
+                language == "english"
+                    ? "Double click to enter a region"
+                    : "Kliknite dva puta da biste odabrali region",
+                style: const TextStyle(fontSize: 12),
               ),
             ],
           ),
@@ -48,31 +50,31 @@ class _InteractiveMapState extends State<InteractiveMap> {
         type: BottomNavigationBarType.shifting,
         selectedItemColor: Colors.white,
         unselectedItemColor: Colors.white54,
-        items: const [
+        items: [
           BottomNavigationBarItem(
-            label: "Home",
-            icon: Icon(
+            label: language == "english" ? "Home" : "Početna",
+            icon: const Icon(
               Icons.home,
               size: 25,
             ),
             backgroundColor: Colors.black,
           ),
           BottomNavigationBarItem(
-            label: "Explore",
-            icon: Icon(
+            label: language == "english" ? "Explore" : "Istraži",
+            icon: const Icon(
               Icons.explore,
               size: 30,
             ),
-            backgroundColor: Color.fromARGB(255, 31, 41, 114),
+            backgroundColor: const Color.fromARGB(255, 31, 41, 114),
           ),
           BottomNavigationBarItem(
-            label: "Read more",
-            icon: Icon(
+            label: language == "english" ? "Read more" : "Čitaj više",
+            icon: const Icon(
               Icons.newspaper,
               size: 25,
             ),
           ),
-          BottomNavigationBarItem(
+          const BottomNavigationBarItem(
             label: "Info",
             icon: Icon(
               Icons.info,
@@ -96,7 +98,8 @@ class _InteractiveMapState extends State<InteractiveMap> {
                   MaterialPageRoute(builder: (context) => const Articles()));
             } else if (index == 3) {
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const About()));             }
+                  MaterialPageRoute(builder: (context) => const About()));
+            }
           });
         },
       ),
@@ -114,7 +117,7 @@ class _InteractiveMapState extends State<InteractiveMap> {
         onPointerMove: (e) => notifier.value = e.localPosition,
         child: CustomPaint(
           painter: InteractiveMapPainter(notifier),
-          child: SizedBox.expand(),
+          child: const SizedBox.expand(),
         ),
       ),
     );

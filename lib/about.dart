@@ -18,44 +18,44 @@ class _AboutState extends State<About> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("About"),
-        backgroundColor: const Color.fromARGB(255, 156, 21, 21),
+        backgroundColor: const Color.fromARGB(255, 31, 31, 31),
         automaticallyImplyLeading: false,
       ),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.shifting,
         selectedItemColor: Colors.white,
         unselectedItemColor: Colors.white54,
-        items: const [
+        items: [
           BottomNavigationBarItem(
-            label: "Home",
-            icon: Icon(
+            label: language == "english" ? "Home" : "Početna",
+            icon: const Icon(
               Icons.home,
               size: 25,
             ),
             backgroundColor: Colors.black,
           ),
           BottomNavigationBarItem(
-            label: "Explore",
-            icon: Icon(
+            label: language == "english" ? "Explore" : "Istraži",
+            icon: const Icon(
               Icons.explore,
-              size: 30,
+              size: 25,
             ),
-            backgroundColor: Color.fromARGB(255, 31, 41, 114),
+            backgroundColor: const Color.fromARGB(255, 31, 41, 114),
           ),
           BottomNavigationBarItem(
-            label: "Read more",
-            icon: Icon(
+            label: language == "english" ? "Read more" : "Čitaj više",
+            icon: const Icon(
               Icons.newspaper,
               size: 25,
             ),
           ),
-          BottomNavigationBarItem(
+          const BottomNavigationBarItem(
               label: "Info",
               icon: Icon(
                 Icons.info,
-                size: 25,
+                size: 30,
               ),
-              backgroundColor: Color.fromARGB(255, 156, 21, 21)),
+              backgroundColor: Color.fromARGB(255, 31, 31, 31)),
         ],
         currentIndex: currentIndex,
         onTap: (int index) {
@@ -81,18 +81,31 @@ class _AboutState extends State<About> {
         },
       ),
       body: Container(
+        padding: const EdgeInsets.all(15.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(language == "english" ? "ABOUT" : "O STRANICI"),
+            Text(language == "english" ? "ABOUT" : "O STRANICI",
+                style: const TextStyle(fontSize: 30, color: Colors.black)),
+            const SizedBox(height: 20),
             Text(
               language == "english"
                   ? "This website is made to introduce the beautiful country of Bosnia and Herzegovina, it's breathtaking and diverse nature, rich history and kind and welcoming people. Bosnia and Herzegovina is not being promoted enough and is often being misrepresented, so I hope this website will make a difference in representing it in a way it should be."
                   : "Ova web stranica je napravljena da predstavi prelijepu zemlju Bosnu i Hercegovinu, njenu prekrasnu i raznoliku prirodu, bogatu historiju i ljubazne i gostoljubive ljude. Bosna i Hercegovina je nedovoljno ispromovirana i često se predstavlja na pogrešan način, pa se nadam da će ova stranica napraviti promjenu u tome da se predstavlja i promoviše na način na koji bi trebala biti.",
+              style: const TextStyle(fontSize: 20, color: Colors.black),
             ),
-            Text(language == "english" ? "CONTACT" : "KONTAKT"),
+            const SizedBox(height: 40),
+            Text(language == "english" ? "CONTACT" : "KONTAKT",
+                style: const TextStyle(fontSize: 30, color: Colors.black)),
+            const SizedBox(height: 20),
             Row(
-              children: const [Icon(Icons.email), Text("bihexplore@gmail.com")],
+              children: const [
+                Icon(Icons.email, size: 20),
+                Text(
+                  "bihexplore@gmail.com",
+                  style: TextStyle(fontSize: 20, color: Colors.black),
+                ),
+              ],
             )
           ],
         ),

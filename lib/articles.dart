@@ -35,9 +35,9 @@ class _ArticlesState extends State<Articles> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          "Read more",
-          style: TextStyle(fontSize: 25),
+        title: Text(
+          language == "english" ? "Read more" : "Čitaj više",
+          style: const TextStyle(fontSize: 25),
         ),
         backgroundColor: const Color.fromARGB(255, 105, 40, 101),
         automaticallyImplyLeading: false,
@@ -46,32 +46,32 @@ class _ArticlesState extends State<Articles> {
         type: BottomNavigationBarType.shifting,
         selectedItemColor: Colors.white,
         unselectedItemColor: Colors.white54,
-        items: const [
+        items: [
           BottomNavigationBarItem(
-            label: "Home",
-            icon: Icon(
+            label: language == "english" ? "Home" : "Početna",
+            icon: const Icon(
               Icons.home,
               size: 25,
             ),
             backgroundColor: Colors.black,
           ),
           BottomNavigationBarItem(
-            label: "Explore",
-            icon: Icon(
+            label: language == "english" ? "Explore" : "Istraži",
+            icon: const Icon(
               Icons.explore,
-              size: 30,
-            ),
-            backgroundColor: Color.fromARGB(255, 28, 51, 100),
-          ),
-          BottomNavigationBarItem(
-            label: "Read more",
-            icon: Icon(
-              Icons.newspaper,
               size: 25,
             ),
-            backgroundColor: Color.fromARGB(255, 105, 40, 101),
+            backgroundColor: const Color.fromARGB(255, 28, 51, 100),
           ),
           BottomNavigationBarItem(
+            label: language == "english" ? "Read more" : "Čitaj više",
+            icon: const Icon(
+              Icons.newspaper,
+              size: 30,
+            ),
+            backgroundColor: const Color.fromARGB(255, 105, 40, 101),
+          ),
+          const BottomNavigationBarItem(
             label: "Info",
             icon: Icon(
               Icons.info,
@@ -233,32 +233,32 @@ class _ArticleState extends State<Article> {
         type: BottomNavigationBarType.shifting,
         selectedItemColor: Colors.white,
         unselectedItemColor: Colors.white54,
-        items: const [
+        items: [
           BottomNavigationBarItem(
-            label: "Home",
-            icon: Icon(
+            label: language == "english" ? "Home" : "Početna",
+            icon: const Icon(
               Icons.home,
               size: 25,
             ),
             backgroundColor: Colors.black,
           ),
           BottomNavigationBarItem(
-            label: "Explore",
-            icon: Icon(
+            label: language == "english" ? "Explore" : "Istraži",
+            icon: const Icon(
               Icons.explore,
-              size: 30,
-            ),
-            backgroundColor: Color.fromARGB(255, 37, 98, 62),
-          ),
-          BottomNavigationBarItem(
-            label: "Read more",
-            icon: Icon(
-              Icons.newspaper,
               size: 25,
             ),
-            backgroundColor: Color.fromARGB(255, 105, 40, 101),
+            backgroundColor: const Color.fromARGB(255, 28, 51, 100),
           ),
           BottomNavigationBarItem(
+            label: language == "english" ? "Read more" : "Čitaj više",
+            icon: const Icon(
+              Icons.newspaper,
+              size: 30,
+            ),
+            backgroundColor: const Color.fromARGB(255, 105, 40, 101),
+          ),
+          const BottomNavigationBarItem(
             label: "Info",
             icon: Icon(
               Icons.info,
