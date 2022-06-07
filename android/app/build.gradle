@@ -25,6 +25,11 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
+flutter.minSdkVersion = Integer.parseInt(localProperties.getProperty("flutter.minSdkVersion", flutter.minSdkVersion.toString()));
+flutter.compileSdkVersion = Integer.parseInt(localProperties.getProperty("flutter.compileSdkVersion", flutter.compileSdkVersion.toString()));
+flutter.targetSdkVersion = Integer.parseInt(localProperties.getProperty("flutter.targetSdkVersion", flutter.targetSdkVersion.toString()));
+
+
 android {
     compileSdkVersion flutter.compileSdkVersion
     ndkVersion flutter.ndkVersion
