@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'interactive_map.dart';
 import "articles.dart";
 import 'main.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class About extends StatefulWidget {
   const About({Key? key}) : super(key: key);
@@ -12,6 +13,11 @@ class About extends StatefulWidget {
 
 class _AboutState extends State<About> {
   int currentIndex = 3;
+
+  void _launchUrl(url) async {
+    final Uri _url = Uri.parse(url);
+    if (!await launchUrl(_url)) throw 'Could not launch $_url';
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -72,9 +78,6 @@ class _AboutState extends State<About> {
               } else if (index == 2) {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => const Articles()));
-              } else if (index == 3) {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const About()));
               }
             },
           );
@@ -85,8 +88,14 @@ class _AboutState extends State<About> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(language == "english" ? "ABOUT" : "O STRANICI",
-                style: const TextStyle(fontSize: 30, color: Colors.black)),
+            Row(
+              children: [
+                const Icon(Icons.info),
+                const SizedBox(width: 15),
+                Text(language == "english" ? "ABOUT" : "O STRANICI",
+                    style: const TextStyle(fontSize: 30, color: Colors.black)),
+              ],
+            ),
             const SizedBox(height: 20),
             Text(
               language == "english"
@@ -95,12 +104,36 @@ class _AboutState extends State<About> {
               style: const TextStyle(fontSize: 20, color: Colors.black),
             ),
             const SizedBox(height: 40),
-            Text(language == "english" ? "CONTACT" : "KONTAKT",
-                style: const TextStyle(fontSize: 30, color: Colors.black)),
+            Row(children: const [
+              Icon(Icons.web),
+              SizedBox(width: 15),
+              Text("WEBSITE",
+                  style: TextStyle(fontSize: 30, color: Colors.black)),
+            ]),
+            const SizedBox(height: 20),
+            const Text("visitbosna.com",
+                style: TextStyle(fontSize: 20, color: Colors.black)),
+            const SizedBox(height: 15),
+            ElevatedButton(
+              onPressed: () => {_launchUrl("http://www.visitbosna.com/")},
+              child: Text(language == "english"
+                  ? "OPEN IN BROWSER"
+                  : "OTVORI U PRETRAŽIVAČU"),
+            ),
+            const SizedBox(height: 40),
+            Row(
+              children: [
+                const Icon(Icons.contact_page_outlined),
+                const SizedBox(width: 15),
+                Text(language == "english" ? "CONTACT" : "KONTAKT",
+                    style: const TextStyle(fontSize: 30, color: Colors.black)),
+              ],
+            ),
             const SizedBox(height: 20),
             Row(
               children: const [
                 Icon(Icons.email, size: 20),
+                SizedBox(width: 10),
                 Text(
                   "bihexplore@gmail.com",
                   style: TextStyle(fontSize: 20, color: Colors.black),

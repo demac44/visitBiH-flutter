@@ -74,10 +74,7 @@ class _AppState extends State<App> {
         currentIndex: currentIndex,
         onTap: (int index) {
           setState(() {
-            if (index == 0) {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const App()));
-            } else if (index == 1) {
+            if (index == 1) {
               Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -160,7 +157,7 @@ class _HomeState extends State<Home> {
                 child: Center(
                   child: Column(
                     children: [
-                      Container(
+                      SizedBox(
                         width: MediaQuery.of(context).size.width,
                         height: 50,
                         child: Row(
@@ -231,7 +228,7 @@ class _HomeState extends State<Home> {
                           },
                           style: ButtonStyle(
                               backgroundColor: MaterialStateProperty.all(
-                                  const Color.fromARGB(255, 255, 162, 0))),
+                                  Color.fromARGB(255, 48, 159, 26))),
                           child: Text(
                             language == "english"
                                 ? "START EXPLORING"

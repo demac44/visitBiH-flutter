@@ -97,8 +97,8 @@ class _AllPlacesState extends State<AllPlaces> {
         onTap: (int index) {
           setState(() {
             if (index == 0) {
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => App()));
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const App()));
             } else if (index == 1) {
               Navigator.push(
                   context,
@@ -294,14 +294,16 @@ class _PlaceState extends State<Place> {
         onTap: (int index) {
           setState(() {
             if (index == 0) {
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => App()));
-            } else if (index == 1) {
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => InteractiveMap()));
+                  MaterialPageRoute(builder: (context) => const App()));
             } else if (index == 1) {
               Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => Articles()));
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const InteractiveMap()));
+            } else if (index == 2) {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const Articles()));
             } else if (index == 3) {
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => const About()));

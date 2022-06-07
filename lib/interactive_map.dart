@@ -86,13 +86,8 @@ class _InteractiveMapState extends State<InteractiveMap> {
         onTap: (int index) {
           setState(() {
             if (index == 0) {
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => App()));
-            } else if (index == 1) {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const InteractiveMap()));
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const App()));
             } else if (index == 2) {
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => const Articles()));
