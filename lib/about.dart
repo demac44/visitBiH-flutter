@@ -23,77 +23,31 @@ class _AboutState extends State<About> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("About"),
-        backgroundColor: const Color.fromARGB(255, 31, 31, 31),
+        backgroundColor: Colors.black,
         automaticallyImplyLeading: false,
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.shifting,
-        selectedItemColor: Colors.white,
-        unselectedItemColor: Colors.white54,
-        items: [
-          BottomNavigationBarItem(
-            label: language == "english" ? "Home" : "Početna",
-            icon: const Icon(
-              Icons.home,
-              size: 25,
-            ),
-            backgroundColor: Colors.black,
-          ),
-          BottomNavigationBarItem(
-            label: language == "english" ? "Explore" : "Istraži",
-            icon: const Icon(
-              Icons.explore,
-              size: 25,
-            ),
-            backgroundColor: const Color.fromARGB(255, 31, 41, 114),
-          ),
-          BottomNavigationBarItem(
-            label: language == "english" ? "Read more" : "Čitaj više",
-            icon: const Icon(
-              Icons.newspaper,
-              size: 25,
-            ),
-          ),
-          const BottomNavigationBarItem(
-              label: "Info",
-              icon: Icon(
-                Icons.info,
-                size: 30,
-              ),
-              backgroundColor: Color.fromARGB(255, 31, 31, 31)),
-        ],
-        currentIndex: currentIndex,
-        onTap: (int index) {
-          setState(
-            () {
-              if (index == 0) {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const App()));
-              } else if (index == 1) {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const InteractiveMap()));
-              } else if (index == 2) {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const Articles()));
-              }
-            },
-          );
-        },
-      ),
+      bottomNavigationBar: const Navbar(index: 3),
       body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: AlignmentDirectional.topCenter,
+            end: AlignmentDirectional.bottomCenter,
+            colors: [
+              Colors.black,
+              Color.fromARGB(255, 29, 29, 29),
+            ],
+          ),
+        ),
         padding: const EdgeInsets.all(15.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               children: [
-                const Icon(Icons.info),
+                const Icon(Icons.info, color: Colors.white),
                 const SizedBox(width: 15),
                 Text(language == "english" ? "ABOUT" : "O STRANICI",
-                    style: const TextStyle(fontSize: 30, color: Colors.black)),
+                    style: const TextStyle(fontSize: 26, color: Colors.white)),
               ],
             ),
             const SizedBox(height: 20),
@@ -101,18 +55,18 @@ class _AboutState extends State<About> {
               language == "english"
                   ? "This website is made to introduce the beautiful country of Bosnia and Herzegovina, it's breathtaking and diverse nature, rich history and kind and welcoming people. Bosnia and Herzegovina is not being promoted enough and is often being misrepresented, so I hope this website will make a difference in representing it in a way it should be."
                   : "Ova web stranica je napravljena da predstavi prelijepu zemlju Bosnu i Hercegovinu, njenu prekrasnu i raznoliku prirodu, bogatu historiju i ljubazne i gostoljubive ljude. Bosna i Hercegovina je nedovoljno ispromovirana i često se predstavlja na pogrešan način, pa se nadam da će ova stranica napraviti promjenu u tome da se predstavlja i promoviše na način na koji bi trebala biti.",
-              style: const TextStyle(fontSize: 20, color: Colors.black),
+              style: const TextStyle(fontSize: 20, color: Colors.white),
             ),
             const SizedBox(height: 40),
             Row(children: const [
-              Icon(Icons.web),
+              Icon(Icons.web, color: Colors.white),
               SizedBox(width: 15),
               Text("WEBSITE",
-                  style: TextStyle(fontSize: 30, color: Colors.black)),
+                  style: TextStyle(fontSize: 26, color: Colors.white)),
             ]),
             const SizedBox(height: 20),
             const Text("visitbosna.com",
-                style: TextStyle(fontSize: 20, color: Colors.black)),
+                style: TextStyle(fontSize: 20, color: Colors.white)),
             const SizedBox(height: 15),
             ElevatedButton(
               onPressed: () => {_launchUrl("http://www.visitbosna.com/")},
@@ -123,20 +77,20 @@ class _AboutState extends State<About> {
             const SizedBox(height: 40),
             Row(
               children: [
-                const Icon(Icons.contact_page_outlined),
+                const Icon(Icons.contact_page_outlined, color: Colors.white),
                 const SizedBox(width: 15),
                 Text(language == "english" ? "CONTACT" : "KONTAKT",
-                    style: const TextStyle(fontSize: 30, color: Colors.black)),
+                    style: const TextStyle(fontSize: 26, color: Colors.white)),
               ],
             ),
             const SizedBox(height: 20),
             Row(
               children: const [
-                Icon(Icons.email, size: 20),
+                Icon(Icons.email, size: 20, color: Colors.white),
                 SizedBox(width: 10),
                 Text(
                   "bihexplore@gmail.com",
-                  style: TextStyle(fontSize: 20, color: Colors.black),
+                  style: TextStyle(fontSize: 20, color: Colors.white),
                 ),
               ],
             )

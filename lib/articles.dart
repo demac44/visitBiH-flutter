@@ -50,61 +50,7 @@ class _ArticlesState extends State<Articles> {
         backgroundColor: const Color.fromARGB(255, 105, 40, 101),
         automaticallyImplyLeading: false,
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.shifting,
-        selectedItemColor: Colors.white,
-        unselectedItemColor: Colors.white54,
-        items: [
-          BottomNavigationBarItem(
-            label: language == "english" ? "Home" : "Početna",
-            icon: const Icon(
-              Icons.home,
-              size: 25,
-            ),
-            backgroundColor: Colors.black,
-          ),
-          BottomNavigationBarItem(
-            label: language == "english" ? "Explore" : "Istraži",
-            icon: const Icon(
-              Icons.explore,
-              size: 25,
-            ),
-            backgroundColor: const Color.fromARGB(255, 28, 51, 100),
-          ),
-          BottomNavigationBarItem(
-            label: language == "english" ? "Read more" : "Čitaj više",
-            icon: const Icon(
-              Icons.newspaper,
-              size: 30,
-            ),
-            backgroundColor: const Color.fromARGB(255, 105, 40, 101),
-          ),
-          const BottomNavigationBarItem(
-            label: "Info",
-            icon: Icon(
-              Icons.info,
-              size: 25,
-            ),
-          ),
-        ],
-        currentIndex: currentIndex,
-        onTap: (int index) {
-          setState(() {
-            if (index == 0) {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const App()));
-            } else if (index == 1) {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const InteractiveMap()));
-            } else if (index == 3) {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const About()));
-            }
-          });
-        },
-      ),
+      bottomNavigationBar: const Navbar(index: 2),
       body: Center(
         child: FutureBuilder(
           future: futureData,
@@ -238,64 +184,7 @@ class _ArticleState extends State<Article> {
         title: Text(widget.ArticleName),
         backgroundColor: const Color.fromARGB(255, 105, 40, 101),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.shifting,
-        selectedItemColor: Colors.white,
-        unselectedItemColor: Colors.white54,
-        items: [
-          BottomNavigationBarItem(
-            label: language == "english" ? "Home" : "Početna",
-            icon: const Icon(
-              Icons.home,
-              size: 25,
-            ),
-            backgroundColor: Colors.black,
-          ),
-          BottomNavigationBarItem(
-            label: language == "english" ? "Explore" : "Istraži",
-            icon: const Icon(
-              Icons.explore,
-              size: 25,
-            ),
-            backgroundColor: const Color.fromARGB(255, 28, 51, 100),
-          ),
-          BottomNavigationBarItem(
-            label: language == "english" ? "Read more" : "Čitaj više",
-            icon: const Icon(
-              Icons.newspaper,
-              size: 30,
-            ),
-            backgroundColor: const Color.fromARGB(255, 105, 40, 101),
-          ),
-          const BottomNavigationBarItem(
-            label: "Info",
-            icon: Icon(
-              Icons.info,
-              size: 25,
-            ),
-          ),
-        ],
-        currentIndex: currentIndex,
-        onTap: (int index) {
-          setState(() {
-            if (index == 0) {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const App()));
-            } else if (index == 1) {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const InteractiveMap()));
-            } else if (index == 2) {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const Articles()));
-            } else if (index == 3) {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const About()));
-            }
-          });
-        },
-      ),
+      bottomNavigationBar: const Navbar(index: 2),
       body: SingleChildScrollView(
         child: Container(
           color: const Color.fromARGB(255, 255, 255, 255),

@@ -57,63 +57,7 @@ class _AllPlacesState extends State<AllPlaces> {
         ),
         backgroundColor: const Color.fromARGB(255, 28, 51, 100),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.shifting,
-        selectedItemColor: Colors.white,
-        unselectedItemColor: Colors.white54,
-        items: [
-          BottomNavigationBarItem(
-            label: language == "english" ? "Home" : "Početna",
-            icon: const Icon(
-              Icons.home,
-              size: 25,
-            ),
-            backgroundColor: Colors.black,
-          ),
-          BottomNavigationBarItem(
-            label: language == "english" ? "Explore" : "Istraži",
-            icon: const Icon(
-              Icons.explore,
-              size: 30,
-            ),
-            backgroundColor: const Color.fromARGB(255, 28, 51, 100),
-          ),
-          BottomNavigationBarItem(
-            label: language == "english" ? "Read more" : "Čitaj više",
-            icon: const Icon(
-              Icons.newspaper,
-              size: 25,
-            ),
-          ),
-          const BottomNavigationBarItem(
-            label: "Info",
-            icon: Icon(
-              Icons.info,
-              size: 25,
-            ),
-          ),
-        ],
-        currentIndex: currentIndex,
-        onTap: (int index) {
-          setState(() {
-            if (index == 0) {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const App()));
-            } else if (index == 1) {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const InteractiveMap()));
-            } else if (index == 2) {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const Articles()));
-            } else if (index == 3) {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const About()));
-            }
-          });
-        },
-      ),
+      bottomNavigationBar: const Navbar(index: 1),
       body: Center(
         child: FutureBuilder(
           future: futureData,
@@ -265,13 +209,12 @@ class _PlaceState extends State<Place> {
               Icons.home,
               size: 25,
             ),
-            backgroundColor: Colors.black,
           ),
           BottomNavigationBarItem(
             label: language == "english" ? "Explore" : "Istraži",
             icon: const Icon(
               Icons.explore,
-              size: 30,
+              size: 25,
             ),
             backgroundColor: const Color.fromARGB(255, 37, 98, 62),
           ),
