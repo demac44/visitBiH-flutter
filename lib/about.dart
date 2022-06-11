@@ -65,7 +65,7 @@ class _AboutState extends State<About> {
                   style: TextStyle(fontSize: 26, color: Colors.white)),
             ]),
             const SizedBox(height: 20),
-            const Text("visitbosna.com",
+            const Text("www.visitbosna.com",
                 style: TextStyle(fontSize: 20, color: Colors.white)),
             const SizedBox(height: 15),
             ElevatedButton(

@@ -49,7 +49,7 @@ class _InteractiveMapState extends State<InteractiveMap> {
       bottomNavigationBar: const Navbar(index: 1),
       body: Listener(
         onPointerUp: (_) => {
-          if (region == previousRegion)
+          if (region == previousRegion && region != "" && previousRegion != "")
             {
               Navigator.push(
                   context,
@@ -163,6 +163,10 @@ class InteractiveMapPainter extends CustomPainter {
         ..strokeWidth = 2
         ..style = PaintingStyle.stroke;
       canvas.drawPath(path, _paint);
+    }
+    if (selectedShape == null) {
+      previousRegion = "";
+      region = "";
     }
     if (selectedShape != null) {
       previousRegion = region;

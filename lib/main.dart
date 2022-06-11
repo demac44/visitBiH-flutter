@@ -235,7 +235,7 @@ class _NavbarState extends State<Navbar> {
               Icons.newspaper,
               size: 25,
             ),
-            backgroundColor: const Color.fromARGB(255, 105, 40, 101)),
+            backgroundColor: Color.fromARGB(255, 139, 35, 35)),
         const BottomNavigationBarItem(
           label: "Info",
           icon: Icon(
@@ -248,10 +248,6 @@ class _NavbarState extends State<Navbar> {
       currentIndex: widget.index,
       onTap: (int index) {
         setState(() {
-          if (index == widget.index) {
-            return;
-          }
-          ;
           if (index == 0) {
             Navigator.push(
                 context, MaterialPageRoute(builder: (context) => const App()));

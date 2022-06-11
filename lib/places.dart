@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import "interactive_map.dart";
 import 'main.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
 import 'package:url_launcher/url_launcher.dart';
-import "articles.dart";
-import 'about.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 
 class AllPlaces extends StatefulWidget {
   const AllPlaces({Key? key, required this.region}) : super(key: key);
@@ -49,7 +47,7 @@ class _AllPlacesState extends State<AllPlaces> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 226, 226, 226),
+      backgroundColor: const Color.fromARGB(255, 226, 226, 226),
       appBar: AppBar(
         title: Text(
           widget.region,
@@ -65,7 +63,8 @@ class _AllPlacesState extends State<AllPlaces> {
             if (snaphsot.hasData) {
               if (snaphsot.data != null) data = snaphsot.data;
               return SingleChildScrollView(
-                padding: const EdgeInsets.all(5.0),
+                padding: const EdgeInsets.only(
+                    top: 0, left: 5.0, right: 5.0, bottom: 10.0),
                 child: Column(
                   children: [
                     for (var item in data)
@@ -88,12 +87,12 @@ class _AllPlacesState extends State<AllPlaces> {
                               Container(
                                 foregroundDecoration: BoxDecoration(
                                     color: Colors.black38,
-                                    borderRadius: BorderRadius.circular(20.0)),
+                                    borderRadius: BorderRadius.circular(10.0)),
                                 width: double.infinity,
                                 height: 300,
                                 padding: const EdgeInsets.all(5.0),
                                 decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(20.0),
+                                  borderRadius: BorderRadius.circular(10.0),
                                   image: DecorationImage(
                                       image: NetworkImage(item["card_img"]),
                                       fit: BoxFit.cover),
@@ -157,13 +156,15 @@ class Place extends StatefulWidget {
 }
 
 class _PlaceState extends State<Place> {
+  int _current = 0;
+  final CarouselController _controller = CarouselController();
+
   @override
   Place get widget => super.widget;
   late Future<void> futureData;
 
   int currentIndex = 1;
   var data;
-  int imagesIndex = 0;
 
   Future<dynamic> fetchData() async {
     var url = Uri.parse('http://www.visitbosna.com/api/places/place');
@@ -196,64 +197,9 @@ class _PlaceState extends State<Place> {
       backgroundColor: const Color.fromARGB(255, 255, 255, 255),
       appBar: AppBar(
         title: Text(widget.appBarName),
-        backgroundColor: const Color.fromARGB(255, 37, 98, 62),
+        backgroundColor: const Color.fromARGB(255, 28, 51, 100),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.shifting,
-        selectedItemColor: Colors.white,
-        unselectedItemColor: Colors.white54,
-        items: [
-          BottomNavigationBarItem(
-            label: language == "english" ? "Home" : "Početna",
-            icon: const Icon(
-              Icons.home,
-              size: 25,
-            ),
-          ),
-          BottomNavigationBarItem(
-            label: language == "english" ? "Explore" : "Istraži",
-            icon: const Icon(
-              Icons.explore,
-              size: 25,
-            ),
-            backgroundColor: const Color.fromARGB(255, 37, 98, 62),
-          ),
-          BottomNavigationBarItem(
-            label: language == "english" ? "Read more" : "Čitaj više",
-            icon: const Icon(
-              Icons.newspaper,
-              size: 25,
-            ),
-          ),
-          const BottomNavigationBarItem(
-            label: "Info",
-            icon: Icon(
-              Icons.info,
-              size: 25,
-            ),
-          ),
-        ],
-        currentIndex: currentIndex,
-        onTap: (int index) {
-          setState(() {
-            if (index == 0) {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const App()));
-            } else if (index == 1) {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const InteractiveMap()));
-            } else if (index == 2) {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const Articles()));
-            } else if (index == 3) {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const About()));
-            }
-          });
-        },
-      ),
+      bottomNavigationBar: const Navbar(index: 1),
       body: SingleChildScrollView(
         child: Container(
           color: const Color.fromARGB(255, 255, 255, 255),
@@ -266,68 +212,80 @@ class _PlaceState extends State<Place> {
 
                 var images = data[0]["images"];
 
+                List<String> imgs = [];
+
+                for (var image in images) {
+                  imgs.add(image["image"]);
+                }
+
                 return Column(
                   children: [
-                    Container(
-                      height: 350,
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        color: Colors.black54,
-                        image: DecorationImage(
-                            image: NetworkImage(
-                              data[0]["images"][imagesIndex]["image"],
-                            ),
-                            fit: BoxFit.cover),
-                      ),
-                      child: Row(
-                        children: [
-                          GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                if (imagesIndex == 0) {
-                                  imagesIndex = images.length - 1;
-                                } else {
-                                  imagesIndex--;
-                                }
-                              });
-                            },
-                            child: Container(
-                              height: 350,
-                              width: 40,
-                              color: const Color.fromARGB(100, 0, 0, 0),
-                              child: const Icon(
-                                Icons.arrow_left,
+                    const SizedBox(height: 10),
+                    CarouselSlider(
+                      carouselController: _controller,
+                      items: imgs
+                          .map((img) => Container(
+                              height: 300,
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                gradient: const LinearGradient(
+                                  begin: AlignmentDirectional.topEnd,
+                                  end: AlignmentDirectional.bottomStart,
+                                  colors: [
+                                    Color.fromARGB(255, 211, 211, 211),
+                                    Color.fromARGB(255, 241, 241, 241),
+                                  ],
+                                ),
                                 color: Colors.white,
-                                size: 35,
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                              width: MediaQuery.of(context).size.width - 80),
-                          GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                if (imagesIndex == images.length - 1) {
-                                  imagesIndex = 0;
-                                } else {
-                                  imagesIndex++;
-                                }
-                              });
-                            },
-                            child: Container(
-                              height: 350,
-                              width: 40,
-                              color: const Color.fromARGB(100, 0, 0, 0),
-                              child: const Icon(
-                                Icons.arrow_right,
-                                color: Colors.white,
-                                size: 35,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
+                                image: DecorationImage(
+                                    image: NetworkImage(img),
+                                    fit: BoxFit.cover),
+                              )))
+                          .toList(),
+                      options: CarouselOptions(
+                          height: 300,
+                          aspectRatio: 16 / 9,
+                          viewportFraction: 0.97,
+                          initialPage: 0,
+                          enableInfiniteScroll: true,
+                          reverse: false,
+                          autoPlay: true,
+                          autoPlayInterval: const Duration(seconds: 6),
+                          autoPlayAnimationDuration:
+                              const Duration(milliseconds: 1000),
+                          autoPlayCurve: Curves.fastOutSlowIn,
+                          enlargeCenterPage: true,
+                          scrollDirection: Axis.horizontal,
+                          onPageChanged: (index, reason) {
+                            setState(() {
+                              _current = index;
+                            });
+                          }),
                     ),
+                    const SizedBox(height: 10),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: imgs.asMap().entries.map((entry) {
+                        return GestureDetector(
+                          onTap: () => _controller.animateToPage(entry.key),
+                          child: Container(
+                            width: 8.0,
+                            height: 8.0,
+                            margin: const EdgeInsets.symmetric(
+                                vertical: 8.0, horizontal: 4.0),
+                            decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: (Theme.of(context).brightness ==
+                                            Brightness.dark
+                                        ? Colors.white
+                                        : Colors.black)
+                                    .withOpacity(
+                                        _current == entry.key ? 0.6 : 0.2)),
+                          ),
+                        );
+                      }).toList(),
+                    ),
+                    const SizedBox(height: 10),
                     Container(
                       padding: const EdgeInsets.all(10.0),
                       child: Text(
@@ -359,7 +317,7 @@ class _PlaceState extends State<Place> {
               }
               return Container(
                 color: Colors.white,
-                height: MediaQuery.of(context).size.height - 100,
+                height: MediaQuery.of(context).size.height - 150,
                 width: MediaQuery.of(context).size.width,
                 child: Center(
                   child: Image.asset(

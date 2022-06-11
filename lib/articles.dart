@@ -47,7 +47,7 @@ class _ArticlesState extends State<Articles> {
           language == "english" ? "Read more" : "Čitaj više",
           style: const TextStyle(fontSize: 25),
         ),
-        backgroundColor: const Color.fromARGB(255, 105, 40, 101),
+        backgroundColor: const Color.fromARGB(255, 139, 35, 35),
         automaticallyImplyLeading: false,
       ),
       bottomNavigationBar: const Navbar(index: 2),
@@ -58,7 +58,8 @@ class _ArticlesState extends State<Articles> {
             if (snaphsot.hasData) {
               if (snaphsot.data != null) data = snaphsot.data;
               return SingleChildScrollView(
-                padding: const EdgeInsets.all(5.0),
+                padding: const EdgeInsets.only(
+                    top: 0, left: 5.0, right: 5.0, bottom: 10.0),
                 child: Column(
                   children: [
                     for (var item in data)
@@ -81,12 +82,12 @@ class _ArticlesState extends State<Articles> {
                               Container(
                                 foregroundDecoration: BoxDecoration(
                                     color: Colors.black38,
-                                    borderRadius: BorderRadius.circular(20.0)),
+                                    borderRadius: BorderRadius.circular(10.0)),
                                 width: double.infinity,
                                 height: 300,
                                 padding: const EdgeInsets.all(5.0),
                                 decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(20.0),
+                                  borderRadius: BorderRadius.circular(10.0),
                                   image: DecorationImage(
                                       image: NetworkImage(item["card_image"]),
                                       fit: BoxFit.cover),
@@ -182,7 +183,7 @@ class _ArticleState extends State<Article> {
       backgroundColor: const Color.fromARGB(255, 255, 255, 255),
       appBar: AppBar(
         title: Text(widget.ArticleName),
-        backgroundColor: const Color.fromARGB(255, 105, 40, 101),
+        backgroundColor: const Color.fromARGB(255, 139, 35, 35),
       ),
       bottomNavigationBar: const Navbar(index: 2),
       body: SingleChildScrollView(
