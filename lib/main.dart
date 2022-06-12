@@ -29,7 +29,7 @@ class _AppState extends State<App> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: Container(
+        title: SizedBox(
           child: Image.asset("assets/images/logo-visitbih.png"),
         ),
         backgroundColor: Colors.black,
@@ -81,24 +81,26 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          begin: AlignmentDirectional.topCenter,
-          end: AlignmentDirectional.bottomCenter,
-          colors: [
-            Colors.black,
-            Color.fromARGB(255, 29, 29, 29),
-          ],
+    return SingleChildScrollView(
+      child: Container(
+        constraints: BoxConstraints(
+            minHeight: MediaQuery.of(context).size.height - kToolbarHeight * 2),
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: AlignmentDirectional.topCenter,
+            end: AlignmentDirectional.bottomCenter,
+            colors: [
+              Colors.black,
+              Color.fromARGB(255, 29, 29, 29),
+            ],
+          ),
         ),
-      ),
-      padding: const EdgeInsets.only(top: 15.0, left: 15.0, right: 15.0),
-      child: Center(
+        padding: const EdgeInsets.only(top: 20.0, left: 15.0, right: 15.0),
         child: Column(
           children: [
             SizedBox(
               width: MediaQuery.of(context).size.width,
-              height: 50,
+              height: 30,
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.end,
@@ -130,19 +132,21 @@ class _HomeState extends State<Home> {
               language == "english"
                   ? "The Heart-Shaped Land: Bosnia and Herzegovina"
                   : "Zemlja srcolikog oblika: Bosna i Hercegovina",
-              style: const TextStyle(color: Colors.white, fontSize: 32),
+              style: const TextStyle(color: Colors.white, fontSize: 28),
+              textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 30),
+            const SizedBox(height: 15),
             Text(
               language == "english"
                   ? "Bosnia and Herzegovina lies in the heart of Southeast Europe. It is here that eastern and western civilizations met, sometimes clashed, but more often enriched and reinforced each other throughout its long and fascinating history. Here, the most interesting and attractive sites are a wonderful mix of this tiny country's cultural and natural heritage."
                   : "Bosna i Hercegovina se nalazi u srcu jugoistočne Evrope. Tu su se susrele istočna i zapadna civilizacija, ponekad sukobljavale, ali češće obogaćivale i pojačavale jedna drugu kroz svoju dugu i fascinantnu historiju. Ovdje su najzanimljivije i najatraktivnije lokacije divan spoj kulturnog i prirodnog nasljeđa ove male zemlje.",
               style: const TextStyle(color: Colors.white, fontSize: 18),
+              textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 50),
+            const SizedBox(height: 40),
             SizedBox(
               height: 50,
-              width: MediaQuery.of(context).size.width - 30,
+              width: MediaQuery.of(context).size.width - 60,
               child: ElevatedButton(
                 onPressed: () {
                   Navigator.push(
@@ -159,14 +163,14 @@ class _HomeState extends State<Home> {
                   language == "english"
                       ? "START EXPLORING"
                       : "ZAPOČNI ISTRAŽIVANJE",
-                  style: const TextStyle(fontSize: 22),
+                  style: const TextStyle(fontSize: 20),
                 ),
               ),
             ),
             const SizedBox(height: 20),
             SizedBox(
               height: 50,
-              width: MediaQuery.of(context).size.width - 30,
+              width: MediaQuery.of(context).size.width - 60,
               child: ElevatedButton(
                 onPressed: () {
                   Navigator.push(
@@ -177,13 +181,11 @@ class _HomeState extends State<Home> {
                   );
                 },
                 style: ElevatedButton.styleFrom(
-                    primary: Color.fromARGB(0, 255, 255, 255),
+                    primary: const Color.fromARGB(0, 255, 255, 255),
                     side: const BorderSide(width: 1.0, color: Colors.white)),
                 child: Text(
-                  language == "english"
-                      ? "READ ABOUT BOSNIA AND HERZEGOVINA"
-                      : "ČITAJ VIŠE O BOSNI I HERCEGOVINI",
-                  style: const TextStyle(fontSize: 16),
+                  language == "english" ? "READ MORE" : "ČITAJ VIŠE",
+                  style: const TextStyle(fontSize: 20),
                 ),
               ),
             ),
@@ -235,7 +237,7 @@ class _NavbarState extends State<Navbar> {
               Icons.newspaper,
               size: 25,
             ),
-            backgroundColor: Color.fromARGB(255, 139, 35, 35)),
+            backgroundColor: const Color.fromARGB(255, 139, 35, 35)),
         const BottomNavigationBarItem(
           label: "Info",
           icon: Icon(
@@ -250,18 +252,39 @@ class _NavbarState extends State<Navbar> {
         setState(() {
           if (index == 0) {
             Navigator.push(
-                context, MaterialPageRoute(builder: (context) => const App()));
+                context,
+                PageRouteBuilder(
+                  pageBuilder: (context, animation1, animation2) => const App(),
+                  transitionDuration: Duration.zero,
+                  reverseTransitionDuration: Duration.zero,
+                ));
           } else if (index == 1) {
             Navigator.push(
                 context,
-                MaterialPageRoute(
-                    builder: (context) => const InteractiveMap()));
+                PageRouteBuilder(
+                  pageBuilder: (context, animation1, animation2) =>
+                      const InteractiveMap(),
+                  transitionDuration: Duration.zero,
+                  reverseTransitionDuration: Duration.zero,
+                ));
           } else if (index == 2) {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => const Articles()));
+            Navigator.push(
+                context,
+                PageRouteBuilder(
+                  pageBuilder: (context, animation1, animation2) =>
+                      const Articles(),
+                  transitionDuration: Duration.zero,
+                  reverseTransitionDuration: Duration.zero,
+                ));
           } else if (index == 3) {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => const About()));
+            Navigator.push(
+                context,
+                PageRouteBuilder(
+                  pageBuilder: (context, animation1, animation2) =>
+                      const About(),
+                  transitionDuration: Duration.zero,
+                  reverseTransitionDuration: Duration.zero,
+                ));
           }
         });
       },

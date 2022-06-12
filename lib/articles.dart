@@ -26,10 +26,10 @@ class _ArticlesState extends State<Articles> {
       if (response.statusCode == 200) {
         return json.decode(response.body);
       } else {
-        throw "Connection error!";
+        throw "Network connection error!";
       }
     } catch (e) {
-      throw "Connection error!";
+      throw "Network connection error!";
     }
   }
 
@@ -72,7 +72,7 @@ class _ArticlesState extends State<Articles> {
                               MaterialPageRoute(
                                 builder: (context) => Article(
                                   ArticleId: item["_id"],
-                                  ArticleName: item["title"][language],
+                                  ArticleName: item?["title"]?[language] ?? "",
                                 ),
                               ),
                             );
@@ -89,7 +89,8 @@ class _ArticlesState extends State<Articles> {
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(10.0),
                                   image: DecorationImage(
-                                      image: NetworkImage(item["card_image"]),
+                                      image: NetworkImage(item["card_image"] ??
+                                          "https://res.cloudinary.com/de5mm13ux/image/upload/v1655060804/Website%20assets/default-thumbnail_elipwk.jpg"),
                                       fit: BoxFit.cover),
                                 ),
                               ),
@@ -98,7 +99,7 @@ class _ArticlesState extends State<Articles> {
                                 height: 300,
                                 child: Center(
                                   child: Text(
-                                    item["title"][language],
+                                    item["title"]?[language] ?? "",
                                     style: const TextStyle(
                                       fontSize: 30,
                                       color: Colors.white,
@@ -164,10 +165,10 @@ class _ArticleState extends State<Article> {
       if (response.statusCode == 200) {
         return json.decode(response.body);
       } else {
-        throw "Connection error!";
+        throw "Network connection error!";
       }
     } catch (e) {
-      throw "Connection error!";
+      throw "Network connection error!";
     }
   }
 
@@ -195,7 +196,7 @@ class _ArticleState extends State<Article> {
             builder: (context, snaphsot) {
               if (snaphsot.hasData) {
                 if (snaphsot.data != null) data = snaphsot.data;
-                var sections = data["sections"];
+                var sections = data?["sections"] ?? [];
 
                 return Column(
                   children: [
@@ -210,7 +211,8 @@ class _ArticleState extends State<Article> {
                           padding: const EdgeInsets.all(5.0),
                           decoration: BoxDecoration(
                             image: DecorationImage(
-                                image: NetworkImage(data["card_image"]),
+                                image: NetworkImage(data["card_image"] ??
+                                    "https://res.cloudinary.com/de5mm13ux/image/upload/v1655060804/Website%20assets/default-thumbnail_elipwk.jpg"),
                                 fit: BoxFit.cover),
                           ),
                         ),
@@ -219,7 +221,7 @@ class _ArticleState extends State<Article> {
                           height: 300,
                           child: Center(
                             child: Text(
-                              data["title"][language],
+                              data["title"]?[language] ?? "",
                               style: const TextStyle(
                                 fontSize: 30,
                                 color: Colors.white,
@@ -235,13 +237,13 @@ class _ArticleState extends State<Article> {
                       child: Column(
                         children: [
                           Text(
-                            data["intro_title"][language],
+                            data["intro_title"]?[language] ?? "",
                             textAlign: TextAlign.center,
                             style: const TextStyle(fontSize: 25),
                           ),
                           const SizedBox(height: 15.0),
                           Text(
-                            data["intro_text"][language],
+                            data["intro_text"]?[language] ?? "",
                             textAlign: TextAlign.center,
                             style: const TextStyle(fontSize: 18),
                           ),
@@ -256,21 +258,23 @@ class _ArticleState extends State<Article> {
                         margin: const EdgeInsets.only(top: 20.0),
                         child: Column(children: [
                           Text(
-                            section[language]["section_title"],
+                            section[language]?["section_title"] ?? "",
                             textAlign: TextAlign.center,
                             style: const TextStyle(fontSize: 25),
                           ),
                           const SizedBox(height: 20.0),
                           Text(
-                            section[language]["section_text"],
+                            section[language]?["section_text"] ?? "",
                             textAlign: TextAlign.center,
                             style: const TextStyle(fontSize: 18),
                           ),
                           const SizedBox(height: 20.0),
-                          Image.network(section["section_image"]),
+                          Image.network(section["section_image"] ??
+                              "https://res.cloudinary.com/de5mm13ux/image/upload/v1655060804/Website%20assets/default-thumbnail_elipwk.jpg"),
                           const SizedBox(height: 10.0),
                           Text(
-                            section[language]["section_image_description"],
+                            section[language]?["section_image_description"] ??
+                                "",
                             style: const TextStyle(fontSize: 16),
                           ),
                         ]),

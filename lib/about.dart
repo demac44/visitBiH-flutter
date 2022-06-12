@@ -16,7 +16,7 @@ class _AboutState extends State<About> {
 
   void _launchUrl(url) async {
     final Uri _url = Uri.parse(url);
-    if (!await launchUrl(_url)) throw 'Could not launch $_url';
+    if (!await launchUrl(_url)) throw 'Error opening $_url';
   }
 
   @override
@@ -27,74 +27,108 @@ class _AboutState extends State<About> {
         automaticallyImplyLeading: false,
       ),
       bottomNavigationBar: const Navbar(index: 3),
-      body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: AlignmentDirectional.topCenter,
-            end: AlignmentDirectional.bottomCenter,
-            colors: [
-              Colors.black,
-              Color.fromARGB(255, 29, 29, 29),
+      body: SingleChildScrollView(
+        child: Container(
+          constraints: BoxConstraints(
+              minHeight:
+                  MediaQuery.of(context).size.height - kToolbarHeight * 2),
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              begin: AlignmentDirectional.topCenter,
+              end: AlignmentDirectional.bottomCenter,
+              colors: [
+                Colors.black,
+                Color.fromARGB(255, 29, 29, 29),
+              ],
+            ),
+          ),
+          padding: const EdgeInsets.all(15.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Icon(Icons.info, color: Colors.white),
+                  const SizedBox(width: 10),
+                  Text(language == "english" ? "ABOUT" : "O STRANICI",
+                      style:
+                          const TextStyle(fontSize: 26, color: Colors.white)),
+                ],
+              ),
+              const SizedBox(height: 20),
+              Text(
+                language == "english"
+                    ? "This website is made to introduce the beautiful country of Bosnia and Herzegovina, it's breathtaking and diverse nature, rich history and kind and welcoming people. Bosnia and Herzegovina is not being promoted enough and is often being misrepresented, so I hope this website will make a difference in representing it in a way it should be."
+                    : "Ova web stranica je napravljena da predstavi prelijepu zemlju Bosnu i Hercegovinu, njenu prekrasnu i raznoliku prirodu, bogatu historiju i ljubazne i gostoljubive ljude. Bosna i Hercegovina je nedovoljno ispromovirana i često se predstavlja na pogrešan način, pa se nadam da će ova stranica napraviti promjenu u tome da se predstavlja i promoviše na način na koji bi trebala biti.",
+                style: const TextStyle(fontSize: 20, color: Colors.white),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 40),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: const [
+                  Icon(Icons.web, color: Colors.white),
+                  SizedBox(width: 10),
+                  Text(
+                    "WEBSITE",
+                    style: TextStyle(fontSize: 26, color: Colors.white),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 20),
+              SizedBox(
+                width: MediaQuery.of(context).size.width,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text(
+                      "www.visitbosna.com",
+                      style: TextStyle(fontSize: 20, color: Colors.white),
+                    ),
+                    const SizedBox(height: 15),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width - 50,
+                      child: ElevatedButton(
+                        onPressed: () =>
+                            {_launchUrl("http://www.visitbosna.com/")},
+                        child: Text(
+                          language == "english"
+                              ? "OPEN IN BROWSER"
+                              : "OTVORI U PRETRAŽIVAČU",
+                          style: const TextStyle(fontSize: 18),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 40),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Icon(Icons.contact_page_outlined, color: Colors.white),
+                  const SizedBox(width: 15),
+                  Text(language == "english" ? "CONTACT" : "KONTAKT",
+                      style:
+                          const TextStyle(fontSize: 26, color: Colors.white)),
+                ],
+              ),
+              const SizedBox(height: 20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: const [
+                  Icon(Icons.email, size: 20, color: Colors.white),
+                  SizedBox(width: 10),
+                  Text(
+                    "bihexplore@gmail.com",
+                    style: TextStyle(fontSize: 20, color: Colors.white),
+                  ),
+                ],
+              )
             ],
           ),
-        ),
-        padding: const EdgeInsets.all(15.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                const Icon(Icons.info, color: Colors.white),
-                const SizedBox(width: 15),
-                Text(language == "english" ? "ABOUT" : "O STRANICI",
-                    style: const TextStyle(fontSize: 26, color: Colors.white)),
-              ],
-            ),
-            const SizedBox(height: 20),
-            Text(
-              language == "english"
-                  ? "This website is made to introduce the beautiful country of Bosnia and Herzegovina, it's breathtaking and diverse nature, rich history and kind and welcoming people. Bosnia and Herzegovina is not being promoted enough and is often being misrepresented, so I hope this website will make a difference in representing it in a way it should be."
-                  : "Ova web stranica je napravljena da predstavi prelijepu zemlju Bosnu i Hercegovinu, njenu prekrasnu i raznoliku prirodu, bogatu historiju i ljubazne i gostoljubive ljude. Bosna i Hercegovina je nedovoljno ispromovirana i često se predstavlja na pogrešan način, pa se nadam da će ova stranica napraviti promjenu u tome da se predstavlja i promoviše na način na koji bi trebala biti.",
-              style: const TextStyle(fontSize: 20, color: Colors.white),
-            ),
-            const SizedBox(height: 40),
-            Row(children: const [
-              Icon(Icons.web, color: Colors.white),
-              SizedBox(width: 15),
-              Text("WEBSITE",
-                  style: TextStyle(fontSize: 26, color: Colors.white)),
-            ]),
-            const SizedBox(height: 20),
-            const Text("www.visitbosna.com",
-                style: TextStyle(fontSize: 20, color: Colors.white)),
-            const SizedBox(height: 15),
-            ElevatedButton(
-              onPressed: () => {_launchUrl("http://www.visitbosna.com/")},
-              child: Text(language == "english"
-                  ? "OPEN IN BROWSER"
-                  : "OTVORI U PRETRAŽIVAČU"),
-            ),
-            const SizedBox(height: 40),
-            Row(
-              children: [
-                const Icon(Icons.contact_page_outlined, color: Colors.white),
-                const SizedBox(width: 15),
-                Text(language == "english" ? "CONTACT" : "KONTAKT",
-                    style: const TextStyle(fontSize: 26, color: Colors.white)),
-              ],
-            ),
-            const SizedBox(height: 20),
-            Row(
-              children: const [
-                Icon(Icons.email, size: 20, color: Colors.white),
-                SizedBox(width: 10),
-                Text(
-                  "bihexplore@gmail.com",
-                  style: TextStyle(fontSize: 20, color: Colors.white),
-                ),
-              ],
-            )
-          ],
         ),
       ),
     );

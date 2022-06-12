@@ -31,10 +31,10 @@ class _AllPlacesState extends State<AllPlaces> {
       if (response.statusCode == 200) {
         return json.decode(response.body);
       } else {
-        throw "Connection error!";
+        throw "Network connection error!";
       }
     } catch (e) {
-      throw "Connection error!";
+      throw "Network connection error!";
     }
   }
 
@@ -76,9 +76,10 @@ class _AllPlacesState extends State<AllPlaces> {
                               context,
                               MaterialPageRoute(
                                 builder: (context) => Place(
-                                    placeId: item["_id"],
-                                    placeName: item["name"]["english"],
-                                    appBarName: item["name"][language]),
+                                  placeId: item["_id"],
+                                  placeName: item["name"]?["english"] ?? "",
+                                  appBarName: item["name"]?[language] ?? "",
+                                ),
                               ),
                             );
                           },
@@ -94,7 +95,8 @@ class _AllPlacesState extends State<AllPlaces> {
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(10.0),
                                   image: DecorationImage(
-                                      image: NetworkImage(item["card_img"]),
+                                      image: NetworkImage(item["card_img"] ??
+                                          "https://res.cloudinary.com/de5mm13ux/image/upload/v1655060804/Website%20assets/default-thumbnail_elipwk.jpg"),
                                       fit: BoxFit.cover),
                                 ),
                               ),
@@ -103,7 +105,7 @@ class _AllPlacesState extends State<AllPlaces> {
                                 height: 300,
                                 child: Center(
                                   child: Text(
-                                    item["name"][language],
+                                    item["name"]?[language] ?? "",
                                     style: const TextStyle(
                                       fontSize: 40,
                                       color: Colors.white,
@@ -173,10 +175,10 @@ class _PlaceState extends State<Place> {
       if (response.statusCode == 200) {
         return json.decode(response.body);
       } else {
-        throw "Connection error!";
+        throw "Network connection error!";
       }
     } catch (e) {
-      throw "Connection error!";
+      throw "Network connection error!";
     }
   }
 
@@ -200,134 +202,144 @@ class _PlaceState extends State<Place> {
         backgroundColor: const Color.fromARGB(255, 28, 51, 100),
       ),
       bottomNavigationBar: const Navbar(index: 1),
-      body: SingleChildScrollView(
-        child: Container(
-          color: const Color.fromARGB(255, 255, 255, 255),
-          width: double.infinity,
-          child: FutureBuilder(
-            future: futureData,
-            builder: (context, snaphsot) {
-              if (snaphsot.hasData) {
-                if (snaphsot.data != null) data = snaphsot.data;
+      body: Center(
+        child: SingleChildScrollView(
+          child: Container(
+            color: const Color.fromARGB(255, 255, 255, 255),
+            child: FutureBuilder(
+              future: futureData,
+              builder: (context, snaphsot) {
+                if (snaphsot.hasData) {
+                  if (snaphsot.data != null) data = snaphsot.data;
 
-                var images = data[0]["images"];
+                  var images = data[0]?["images"] ??
+                      [
+                        {
+                          "image":
+                              "https://res.cloudinary.com/de5mm13ux/image/upload/v1655060804/Website%20assets/default-thumbnail_elipwk.jpg"
+                        }
+                      ];
 
-                List<String> imgs = [];
+                  List<String> imgs = [];
 
-                for (var image in images) {
-                  imgs.add(image["image"]);
-                }
+                  for (var image in images) {
+                    imgs.add(image["image"] ??
+                        "https://res.cloudinary.com/de5mm13ux/image/upload/v1655060804/Website%20assets/default-thumbnail_elipwk.jpg");
+                  }
 
-                return Column(
-                  children: [
-                    const SizedBox(height: 10),
-                    CarouselSlider(
-                      carouselController: _controller,
-                      items: imgs
-                          .map((img) => Container(
-                              height: 300,
-                              width: double.infinity,
+                  return Column(
+                    children: [
+                      const SizedBox(height: 10),
+                      CarouselSlider(
+                        carouselController: _controller,
+                        items: imgs
+                            .map((img) => Container(
+                                height: 300,
+                                width: double.infinity,
+                                decoration: BoxDecoration(
+                                  gradient: const LinearGradient(
+                                    begin: AlignmentDirectional.topEnd,
+                                    end: AlignmentDirectional.bottomStart,
+                                    colors: [
+                                      Color.fromARGB(255, 211, 211, 211),
+                                      Color.fromARGB(255, 241, 241, 241),
+                                    ],
+                                  ),
+                                  color: Colors.white,
+                                  image: DecorationImage(
+                                      image: NetworkImage(img),
+                                      fit: BoxFit.cover),
+                                )))
+                            .toList(),
+                        options: CarouselOptions(
+                            height: 300,
+                            aspectRatio: 16 / 9,
+                            viewportFraction: 0.97,
+                            initialPage: 0,
+                            enableInfiniteScroll: true,
+                            reverse: false,
+                            autoPlay: true,
+                            autoPlayInterval: const Duration(seconds: 6),
+                            autoPlayAnimationDuration:
+                                const Duration(milliseconds: 1000),
+                            autoPlayCurve: Curves.fastOutSlowIn,
+                            enlargeCenterPage: true,
+                            scrollDirection: Axis.horizontal,
+                            onPageChanged: (index, reason) {
+                              setState(() {
+                                _current = index;
+                              });
+                            }),
+                      ),
+                      const SizedBox(height: 10),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: imgs.asMap().entries.map((entry) {
+                          return GestureDetector(
+                            onTap: () => _controller.animateToPage(entry.key),
+                            child: Container(
+                              width: 8.0,
+                              height: 8.0,
+                              margin: const EdgeInsets.symmetric(
+                                  vertical: 8.0, horizontal: 4.0),
                               decoration: BoxDecoration(
-                                gradient: const LinearGradient(
-                                  begin: AlignmentDirectional.topEnd,
-                                  end: AlignmentDirectional.bottomStart,
-                                  colors: [
-                                    Color.fromARGB(255, 211, 211, 211),
-                                    Color.fromARGB(255, 241, 241, 241),
-                                  ],
-                                ),
-                                color: Colors.white,
-                                image: DecorationImage(
-                                    image: NetworkImage(img),
-                                    fit: BoxFit.cover),
-                              )))
-                          .toList(),
-                      options: CarouselOptions(
-                          height: 300,
-                          aspectRatio: 16 / 9,
-                          viewportFraction: 0.97,
-                          initialPage: 0,
-                          enableInfiniteScroll: true,
-                          reverse: false,
-                          autoPlay: true,
-                          autoPlayInterval: const Duration(seconds: 6),
-                          autoPlayAnimationDuration:
-                              const Duration(milliseconds: 1000),
-                          autoPlayCurve: Curves.fastOutSlowIn,
-                          enlargeCenterPage: true,
-                          scrollDirection: Axis.horizontal,
-                          onPageChanged: (index, reason) {
-                            setState(() {
-                              _current = index;
-                            });
-                          }),
-                    ),
-                    const SizedBox(height: 10),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: imgs.asMap().entries.map((entry) {
-                        return GestureDetector(
-                          onTap: () => _controller.animateToPage(entry.key),
-                          child: Container(
-                            width: 8.0,
-                            height: 8.0,
-                            margin: const EdgeInsets.symmetric(
-                                vertical: 8.0, horizontal: 4.0),
-                            decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: (Theme.of(context).brightness ==
-                                            Brightness.dark
-                                        ? Colors.white
-                                        : Colors.black)
-                                    .withOpacity(
-                                        _current == entry.key ? 0.6 : 0.2)),
-                          ),
-                        );
-                      }).toList(),
-                    ),
-                    const SizedBox(height: 10),
-                    Container(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Text(
-                        data[0]["description"][language],
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(
-                            fontSize: 18,
-                            color: Color.fromARGB(255, 31, 31, 31)),
+                                  shape: BoxShape.circle,
+                                  color: (Theme.of(context).brightness ==
+                                              Brightness.dark
+                                          ? Colors.white
+                                          : Colors.black)
+                                      .withOpacity(
+                                          _current == entry.key ? 0.6 : 0.2)),
+                            ),
+                          );
+                        }).toList(),
                       ),
-                    ),
-                    Container(
-                      padding: const EdgeInsets.all(10.0),
-                      child: ElevatedButton(
-                        style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all(
-                                const Color.fromARGB(255, 242, 190, 0))),
-                        onPressed: () => {
-                          _launchUrl(data[0]["location"]["google_maps_link"])
-                        },
-                        child: Text(language == "english"
-                            ? "OPEN IN GOOGLE MAPS"
-                            : "OTVORI U GOOGLE MAPS"),
+                      const SizedBox(height: 10),
+                      Container(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Text(
+                          data[0]?["description"]?[language] ?? "",
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                              fontSize: 18,
+                              color: Color.fromARGB(255, 31, 31, 31)),
+                        ),
                       ),
-                    )
-                  ],
-                );
-              } else if (snaphsot.hasError) {
-                return Text("${snaphsot.error}");
-              }
-              return Container(
-                color: Colors.white,
-                height: MediaQuery.of(context).size.height - 150,
-                width: MediaQuery.of(context).size.width,
-                child: Center(
-                  child: Image.asset(
-                    'assets/images/loader-waiting.gif',
-                    width: 200,
-                    height: 200,
+                      Container(
+                        padding: const EdgeInsets.all(10.0),
+                        child: ElevatedButton(
+                          style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.all(
+                                  const Color.fromARGB(255, 242, 190, 0))),
+                          onPressed: () => {
+                            _launchUrl(data[0]?["location"]
+                                    ?["google_maps_link"] ??
+                                "https://www.google.com/maps")
+                          },
+                          child: Text(language == "english"
+                              ? "OPEN IN GOOGLE MAPS"
+                              : "OTVORI U GOOGLE MAPS"),
+                        ),
+                      )
+                    ],
+                  );
+                } else if (snaphsot.hasError) {
+                  return Text("${snaphsot.error}");
+                }
+                return Container(
+                  color: Colors.white,
+                  height: MediaQuery.of(context).size.height - 150,
+                  width: MediaQuery.of(context).size.width,
+                  child: Center(
+                    child: Image.asset(
+                      'assets/images/loader-waiting.gif',
+                      width: 200,
+                      height: 200,
+                    ),
                   ),
-                ),
-              );
-            },
+                );
+              },
+            ),
           ),
         ),
       ),
