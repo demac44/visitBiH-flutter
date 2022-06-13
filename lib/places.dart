@@ -67,6 +67,7 @@ class _AllPlacesState extends State<AllPlaces> {
                     top: 0, left: 5.0, right: 5.0, bottom: 10.0),
                 child: Column(
                   children: [
+                    RegionAd(RegionName: widget.region),
                     for (var item in data)
                       Container(
                         margin: const EdgeInsets.only(top: 10.0),
@@ -229,6 +230,7 @@ class _PlaceState extends State<Place> {
 
                   return Column(
                     children: [
+                      PlaceAd(ad: data[0]?["ad"]),
                       const SizedBox(height: 10),
                       CarouselSlider(
                         carouselController: _controller,
@@ -344,5 +346,98 @@ class _PlaceState extends State<Place> {
         ),
       ),
     );
+  }
+}
+
+class RegionAd extends StatefulWidget {
+  const RegionAd({Key? key, required this.RegionName}) : super(key: key);
+
+  // ignore: prefer_typing_uninitialized_variables
+  final RegionName;
+
+  @override
+  State<RegionAd> createState() => _RegionAdState();
+}
+
+class _RegionAdState extends State<RegionAd> {
+  @override
+  RegionAd get widget => super.widget;
+  late Future<void> futureData;
+
+  int currentIndex = 1;
+  var data;
+
+  Future<dynamic> fetchData() async {
+    var url = Uri.parse('http://www.visitbosna.com/api/ads/ad/region');
+    try {
+      var response = await http.post(url, body: {"region": widget.RegionName});
+      if (response.statusCode == 200) {
+        return json.decode(response.body);
+      } else {
+        throw "Network connection error!";
+      }
+    } catch (e) {
+      throw "Network connection error!";
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    futureData = fetchData();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+      future: futureData,
+      builder: (context, snaphsot) {
+        if (snaphsot.hasData) {
+          if (snaphsot.data != null) data = snaphsot.data;
+          return Container(
+            width: MediaQuery.of(context).size.width,
+            height: 150,
+            color: Colors.pink,
+            child: Image.network(
+              data["image"],
+            ),
+          );
+        } else if (snaphsot.hasError) {
+          return Text("${snaphsot.error}");
+        } else {
+          return const SizedBox(height: 0);
+        }
+      },
+    );
+  }
+}
+
+class PlaceAd extends StatefulWidget {
+  const PlaceAd({Key? key, required this.ad}) : super(key: key);
+
+  // ignore: prefer_typing_uninitialized_variables
+  final ad;
+
+  @override
+  State<PlaceAd> createState() => _PlaceAdState();
+}
+
+class _PlaceAdState extends State<PlaceAd> {
+  @override
+  PlaceAd get widget => super.widget;
+
+  @override
+  Widget build(BuildContext context) {
+    if (widget.ad?["image"] != null) {
+      return Container(
+          width: MediaQuery.of(context).size.width,
+          height: 100,
+          color: Colors.pink,
+          child: Image.network(
+            widget.ad?["image"],
+          ));
+    } else {
+      return const SizedBox(height: 0);
+    }
   }
 }

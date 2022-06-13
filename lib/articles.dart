@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import "interactive_map.dart";
 import 'main.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
-import 'about.dart';
 
 class Articles extends StatefulWidget {
   const Articles({Key? key}) : super(key: key);
@@ -62,6 +60,7 @@ class _ArticlesState extends State<Articles> {
                     top: 0, left: 5.0, right: 5.0, bottom: 10.0),
                 child: Column(
                   children: [
+                    const ArticlesAd(),
                     for (var item in data)
                       Container(
                         margin: const EdgeInsets.only(top: 10.0),
@@ -232,6 +231,7 @@ class _ArticleState extends State<Article> {
                         )
                       ],
                     ),
+                    const ArticleAd(ArticleId: ""),
                     Container(
                       padding: const EdgeInsets.all(10.0),
                       child: Column(
@@ -302,5 +302,44 @@ class _ArticleState extends State<Article> {
         ),
       ),
     );
+  }
+}
+
+class ArticlesAd extends StatefulWidget {
+  const ArticlesAd({Key? key}) : super(key: key);
+
+  @override
+  State<ArticlesAd> createState() => _ArticlesAdState();
+}
+
+class _ArticlesAdState extends State<ArticlesAd> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        width: MediaQuery.of(context).size.width,
+        height: 150,
+        color: Colors.pink,
+        child: Text("Ad"));
+  }
+}
+
+class ArticleAd extends StatefulWidget {
+  const ArticleAd({Key? key, required this.ArticleId}) : super(key: key);
+
+  // ignore: prefer_typing_uninitialized_variables
+  final ArticleId;
+
+  @override
+  State<ArticleAd> createState() => _ArticleAdState();
+}
+
+class _ArticleAdState extends State<ArticleAd> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        width: MediaQuery.of(context).size.width,
+        height: 100,
+        color: Colors.pink,
+        child: Text("Ad"));
   }
 }
