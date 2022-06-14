@@ -381,6 +381,11 @@ class _RegionAdState extends State<RegionAd> {
     }
   }
 
+  void _launchUrl(url) async {
+    final Uri _url = Uri.parse(url);
+    if (!await launchUrl(_url)) throw 'Could not launch $_url';
+  }
+
   @override
   void initState() {
     super.initState();
@@ -394,12 +399,17 @@ class _RegionAdState extends State<RegionAd> {
       builder: (context, snaphsot) {
         if (snaphsot.hasData) {
           if (snaphsot.data != null) data = snaphsot.data;
-          return Container(
-            width: MediaQuery.of(context).size.width,
-            height: 150,
-            color: Colors.pink,
-            child: Image.network(
-              data["image"],
+          return GestureDetector(
+            onTap: () {
+              _launchUrl(data?["url"] ?? "http://www.visitbosna.com");
+            },
+            child: Container(
+              width: MediaQuery.of(context).size.width,
+              height: 150,
+              color: Colors.pink,
+              child: Image.network(
+                data?["image"],
+              ),
             ),
           );
         } else if (snaphsot.hasError) {
@@ -426,16 +436,27 @@ class _PlaceAdState extends State<PlaceAd> {
   @override
   PlaceAd get widget => super.widget;
 
+  void _launchUrl(url) async {
+    final Uri _url = Uri.parse(url);
+    if (!await launchUrl(_url)) throw 'Could not launch $_url';
+  }
+
   @override
   Widget build(BuildContext context) {
-    if (widget.ad?["image"] != null) {
-      return Container(
+    if (widget.ad?["image"] != null && widget.ad?["image"] != "") {
+      return GestureDetector(
+        onTap: () {
+          _launchUrl(widget.ad?["url"] ?? "http://www.visitbosna.com");
+        },
+        child: Container(
           width: MediaQuery.of(context).size.width,
           height: 100,
           color: Colors.pink,
           child: Image.network(
             widget.ad?["image"],
-          ));
+          ),
+        ),
+      );
     } else {
       return const SizedBox(height: 0);
     }

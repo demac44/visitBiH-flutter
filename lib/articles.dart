@@ -3,6 +3,7 @@ import 'main.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
+import 'package:url_launcher/url_launcher.dart';
 
 class Articles extends StatefulWidget {
   const Articles({Key? key}) : super(key: key);
@@ -231,7 +232,7 @@ class _ArticleState extends State<Article> {
                         )
                       ],
                     ),
-                    const ArticleAd(ArticleId: ""),
+                    ArticleAd(ad: data?["ad"]),
                     Container(
                       padding: const EdgeInsets.all(10.0),
                       child: Column(
@@ -314,20 +315,74 @@ class ArticlesAd extends StatefulWidget {
 
 class _ArticlesAdState extends State<ArticlesAd> {
   @override
+  late Future<void> futureData;
+
+  var data;
+
+  Future<dynamic> fetchData() async {
+    var url = Uri.parse('http://www.visitbosna.com/api/ads/ad/article');
+    try {
+      var response = await http.post(url);
+      if (response.statusCode == 200) {
+        return json.decode(response.body);
+      } else {
+        throw "Network connection error!";
+      }
+    } catch (e) {
+      throw "Network connection error!";
+    }
+  }
+
+  void _launchUrl(url) async {
+    final Uri _url = Uri.parse(url);
+    if (!await launchUrl(_url)) throw 'Could not launch $_url';
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    futureData = fetchData();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Container(
-        width: MediaQuery.of(context).size.width,
-        height: 150,
-        color: Colors.pink,
-        child: Text("Ad"));
+    return FutureBuilder(
+      future: futureData,
+      builder: (context, snaphsot) {
+        if (snaphsot.hasData) {
+          if (snaphsot.data != null) data = snaphsot.data;
+          if (data?["image"] != null && data?["image"] != "") {
+            return GestureDetector(
+              onTap: () {
+                _launchUrl(data?["url"] ?? "http://www.visitbosna.com");
+              },
+              child: Container(
+                width: MediaQuery.of(context).size.width,
+                height: 150,
+                color: Colors.pink,
+                child: Image.network(
+                  data?["image"],
+                ),
+              ),
+            );
+          } else {
+            return const SizedBox();
+          }
+        } else if (snaphsot.hasError) {
+          return Text("${snaphsot.error}");
+        } else {
+          return const SizedBox(height: 0);
+        }
+      },
+    );
   }
 }
 
 class ArticleAd extends StatefulWidget {
-  const ArticleAd({Key? key, required this.ArticleId}) : super(key: key);
+  const ArticleAd({Key? key, required this.ad}) : super(key: key);
 
   // ignore: prefer_typing_uninitialized_variables
-  final ArticleId;
+  final ad;
 
   @override
   State<ArticleAd> createState() => _ArticleAdState();
@@ -335,11 +390,31 @@ class ArticleAd extends StatefulWidget {
 
 class _ArticleAdState extends State<ArticleAd> {
   @override
+  ArticleAd get widget => super.widget;
+
+  void _launchUrl(url) async {
+    final Uri _url = Uri.parse(url);
+    if (!await launchUrl(_url)) throw 'Could not launch $_url';
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Container(
-        width: MediaQuery.of(context).size.width,
-        height: 100,
-        color: Colors.pink,
-        child: Text("Ad"));
+    if (widget.ad?["image"] != null && widget.ad?["image"] != "") {
+      return GestureDetector(
+        onTap: () {
+          _launchUrl(widget.ad?["url"] ?? "http://www.visitbosna.com");
+        },
+        child: Container(
+          width: MediaQuery.of(context).size.width,
+          height: 100,
+          color: Colors.pink,
+          child: Image.network(
+            widget.ad?["image"],
+          ),
+        ),
+      );
+    } else {
+      return const SizedBox(height: 0);
+    }
   }
 }
