@@ -403,13 +403,25 @@ class _RegionAdState extends State<RegionAd> {
             onTap: () {
               _launchUrl(data?["url"] ?? "http://www.visitbosna.com");
             },
-            child: Container(
-              width: MediaQuery.of(context).size.width,
-              height: 150,
-              color: Colors.pink,
-              child: Image.network(
-                data?["image"],
-              ),
+            child: Stack(
+              children: [
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: 150,
+                  color: const Color.fromARGB(255, 245, 245, 245),
+                  child: Image.network(
+                    data?["image"],
+                    errorBuilder: (context, error, stackTrace) {
+                      return const SizedBox(height: 0);
+                    },
+                  ),
+                ),
+                const Text(
+                  "AD",
+                  style: TextStyle(
+                      backgroundColor: Color.fromARGB(255, 255, 230, 0)),
+                ),
+              ],
             ),
           );
         } else if (snaphsot.hasError) {
@@ -448,13 +460,25 @@ class _PlaceAdState extends State<PlaceAd> {
         onTap: () {
           _launchUrl(widget.ad?["url"] ?? "http://www.visitbosna.com");
         },
-        child: Container(
-          width: MediaQuery.of(context).size.width,
-          height: 100,
-          color: Colors.pink,
-          child: Image.network(
-            widget.ad?["image"],
-          ),
+        child: Stack(
+          children: [
+            Container(
+              color: const Color.fromARGB(255, 245, 245, 245),
+              width: MediaQuery.of(context).size.width,
+              height: 100,
+              child: Image.network(
+                widget.ad?["image"],
+                errorBuilder: (context, error, stackTrace) {
+                  return const SizedBox(height: 0);
+                },
+              ),
+            ),
+            const Text(
+              "AD",
+              style:
+                  TextStyle(backgroundColor: Color.fromARGB(255, 255, 230, 0)),
+            ),
+          ],
         ),
       );
     } else {

@@ -211,7 +211,7 @@ class _ArticleState extends State<Article> {
                           padding: const EdgeInsets.all(5.0),
                           decoration: BoxDecoration(
                             image: DecorationImage(
-                                image: NetworkImage(data["card_image"] ??
+                                image: NetworkImage(data?["card_image"] ??
                                     "https://res.cloudinary.com/de5mm13ux/image/upload/v1655060804/Website%20assets/default-thumbnail_elipwk.jpg"),
                                 fit: BoxFit.cover),
                           ),
@@ -270,8 +270,13 @@ class _ArticleState extends State<Article> {
                             style: const TextStyle(fontSize: 18),
                           ),
                           const SizedBox(height: 20.0),
-                          Image.network(section["section_image"] ??
-                              "https://res.cloudinary.com/de5mm13ux/image/upload/v1655060804/Website%20assets/default-thumbnail_elipwk.jpg"),
+                          Image.network(
+                            section["section_image"] ??
+                                "https://res.cloudinary.com/de5mm13ux/image/upload/v1655060804/Website%20assets/default-thumbnail_elipwk.jpg",
+                            errorBuilder: (context, error, stackTrace) {
+                              return const SizedBox(height: 0);
+                            },
+                          ),
                           const SizedBox(height: 10.0),
                           Text(
                             section[language]?["section_image_description"] ??
@@ -356,13 +361,25 @@ class _ArticlesAdState extends State<ArticlesAd> {
               onTap: () {
                 _launchUrl(data?["url"] ?? "http://www.visitbosna.com");
               },
-              child: Container(
-                width: MediaQuery.of(context).size.width,
-                height: 150,
-                color: Colors.pink,
-                child: Image.network(
-                  data?["image"],
-                ),
+              child: Stack(
+                children: [
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: 150,
+                    color: const Color.fromARGB(255, 245, 245, 245),
+                    child: Image.network(
+                      data?["image"],
+                      errorBuilder: (context, error, stackTrace) {
+                        return const SizedBox(height: 0);
+                      },
+                    ),
+                  ),
+                  const Text(
+                    "AD",
+                    style: TextStyle(
+                        backgroundColor: Color.fromARGB(255, 255, 230, 0)),
+                  ),
+                ],
               ),
             );
           } else {
@@ -404,13 +421,25 @@ class _ArticleAdState extends State<ArticleAd> {
         onTap: () {
           _launchUrl(widget.ad?["url"] ?? "http://www.visitbosna.com");
         },
-        child: Container(
-          width: MediaQuery.of(context).size.width,
-          height: 100,
-          color: Colors.pink,
-          child: Image.network(
-            widget.ad?["image"],
-          ),
+        child: Stack(
+          children: [
+            Container(
+              width: MediaQuery.of(context).size.width,
+              height: 100,
+              color: const Color.fromARGB(255, 245, 245, 245),
+              child: Image.network(
+                widget.ad?["image"],
+                errorBuilder: (context, error, stackTrace) {
+                  return const SizedBox(height: 0);
+                },
+              ),
+            ),
+            const Text(
+              "AD",
+              style:
+                  TextStyle(backgroundColor: Color.fromARGB(255, 255, 230, 0)),
+            ),
+          ],
         ),
       );
     } else {
