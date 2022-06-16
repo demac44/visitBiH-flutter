@@ -60,7 +60,9 @@ class _AppState extends State<App> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: SizedBox(
-          child: Image.asset("assets/images/logo-visitbih.png"),
+          child: Center(
+              child:
+                  Image.asset("assets/images/logo-visitbih.png", height: 50)),
         ),
         backgroundColor: Colors.black,
       ),
@@ -70,10 +72,11 @@ class _AppState extends State<App> {
   }
 
   void initMessaging() {
-    var androiInit =
+    var androidInit =
         const AndroidInitializationSettings('mipmap/launcher_icon');
     var iosInit = const IOSInitializationSettings();
-    var initSetting = InitializationSettings(android: androiInit, iOS: iosInit);
+    var initSetting =
+        InitializationSettings(android: androidInit, iOS: iosInit);
     fltNotification = FlutterLocalNotificationsPlugin();
     fltNotification.initialize(initSetting);
     var androidDetails = const AndroidNotificationDetails(
@@ -140,16 +143,7 @@ class _HomeState extends State<Home> {
       child: Container(
         constraints: BoxConstraints(
             minHeight: MediaQuery.of(context).size.height - kToolbarHeight * 2),
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: AlignmentDirectional.topCenter,
-            end: AlignmentDirectional.bottomCenter,
-            colors: [
-              Colors.black,
-              Color.fromARGB(255, 29, 29, 29),
-            ],
-          ),
-        ),
+        color: const Color.fromARGB(255, 61, 123, 177),
         padding: const EdgeInsets.only(top: 20.0, left: 15.0, right: 15.0),
         child: Column(
           children: [
@@ -182,23 +176,21 @@ class _HomeState extends State<Home> {
                 ],
               ),
             ),
-            const SizedBox(height: 50),
-            Text(
-              language == "english"
-                  ? "The Heart-Shaped Land: Bosnia and Herzegovina"
-                  : "Zemlja srcolikog oblika: Bosna i Hercegovina",
-              style: const TextStyle(color: Colors.white, fontSize: 28),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 15),
-            Text(
-              language == "english"
-                  ? "Bosnia and Herzegovina lies in the heart of Southeast Europe. It is here that eastern and western civilizations met, sometimes clashed, but more often enriched and reinforced each other throughout its long and fascinating history. Here, the most interesting and attractive sites are a wonderful mix of this tiny country's cultural and natural heritage."
-                  : "Bosna i Hercegovina se nalazi u srcu jugoistočne Evrope. Tu su se susrele istočna i zapadna civilizacija, ponekad sukobljavale, ali češće obogaćivale i pojačavale jedna drugu kroz svoju dugu i fascinantnu historiju. Ovdje su najzanimljivije i najatraktivnije lokacije divan spoj kulturnog i prirodnog nasljeđa ove male zemlje.",
-              style: const TextStyle(color: Colors.white, fontSize: 18),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 40),
+            const SizedBox(height: 30),
+            GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      PageRouteBuilder(
+                        pageBuilder: (context, animation1, animation2) =>
+                            const InteractiveMap(),
+                        transitionDuration: Duration.zero,
+                        reverseTransitionDuration: Duration.zero,
+                      ));
+                },
+                child: Image.asset("assets/images/map-3d-connect.png",
+                    width: MediaQuery.of(context).size.width)),
+            const SizedBox(height: 20),
             SizedBox(
               height: 50,
               width: MediaQuery.of(context).size.width - 60,
@@ -213,12 +205,13 @@ class _HomeState extends State<Home> {
                 },
                 style: ElevatedButton.styleFrom(
                     primary: const Color.fromARGB(0, 255, 255, 255),
-                    side: const BorderSide(width: 1.0, color: Colors.white)),
+                    side: const BorderSide(
+                        width: 1.0, color: Color.fromARGB(255, 49, 49, 49))),
                 child: Text(
                   language == "english"
                       ? "START EXPLORING"
                       : "ZAPOČNI ISTRAŽIVANJE",
-                  style: const TextStyle(fontSize: 20),
+                  style: const TextStyle(fontSize: 18),
                 ),
               ),
             ),
@@ -237,10 +230,13 @@ class _HomeState extends State<Home> {
                 },
                 style: ElevatedButton.styleFrom(
                     primary: const Color.fromARGB(0, 255, 255, 255),
-                    side: const BorderSide(width: 1.0, color: Colors.white)),
+                    side: const BorderSide(
+                        width: 1.0, color: Color.fromARGB(255, 50, 50, 50))),
                 child: Text(
-                  language == "english" ? "READ MORE" : "ČITAJ VIŠE",
-                  style: const TextStyle(fontSize: 20),
+                  language == "english"
+                      ? "READ MORE ABOUT B&H"
+                      : "ČITAJ VIŠE O BIH",
+                  style: const TextStyle(fontSize: 18),
                 ),
               ),
             ),
@@ -276,7 +272,7 @@ class _NavbarState extends State<Navbar> {
             Icons.home,
             size: 25,
           ),
-          backgroundColor: const Color.fromARGB(255, 29, 29, 29),
+          backgroundColor: Color.fromARGB(255, 0, 0, 0),
         ),
         BottomNavigationBarItem(
           label: language == "english" ? "Explore" : "Istraži",
@@ -299,7 +295,7 @@ class _NavbarState extends State<Navbar> {
             Icons.info,
             size: 25,
           ),
-          backgroundColor: Color.fromARGB(255, 29, 29, 29),
+          backgroundColor: Color.fromARGB(255, 0, 0, 0),
         ),
       ],
       currentIndex: widget.index,

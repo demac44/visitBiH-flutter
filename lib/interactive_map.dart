@@ -145,7 +145,7 @@ class InteractiveMapPainter extends CustomPainter {
 
     canvas
       ..clipRect(Offset.zero & size)
-      ..drawColor(ui.Color.fromARGB(255, 74, 91, 138), BlendMode.src);
+      ..drawColor(const ui.Color.fromARGB(255, 74, 91, 138), BlendMode.src);
     var selectedShape;
     for (var shape in _shapes) {
       final path = shape._transformedPath;

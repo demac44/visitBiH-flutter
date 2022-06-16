@@ -33,7 +33,7 @@ dev_dependencies:
 flutter_icons:
   android: "launcher_icon"
   ios: true
-  image_path: "assets/images/icon.png"
+  image_path: "assets/images/app-icon.png"
 
 flutter:
   fonts:
@@ -44,6 +44,7 @@ flutter:
   uses-material-design: true
 
   assets:
+    - assets/images/map-3d-connect.png
     - assets/images/cilim.jpg
     - assets/images/logo-visitbih.png
     - assets/images/loader-waiting.gif
