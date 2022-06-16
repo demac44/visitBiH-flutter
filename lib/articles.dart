@@ -87,12 +87,12 @@ class _ArticlesState extends State<Articles> {
                                 height: 300,
                                 padding: const EdgeInsets.all(5.0),
                                 decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  image: DecorationImage(
-                                      image: NetworkImage(item["card_image"] ??
-                                          "https://res.cloudinary.com/de5mm13ux/image/upload/v1655060804/Website%20assets/default-thumbnail_elipwk.jpg"),
-                                      fit: BoxFit.cover),
-                                ),
+                                    borderRadius: BorderRadius.circular(10.0),
+                                    image: DecorationImage(
+                                        image: NetworkImage(item[
+                                                "card_image"] ??
+                                            "https://res.cloudinary.com/de5mm13ux/image/upload/v1655060804/Website%20assets/default-thumbnail_elipwk.jpg"),
+                                        fit: BoxFit.cover)),
                               ),
                               SizedBox(
                                 width: double.infinity,

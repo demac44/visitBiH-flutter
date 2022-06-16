@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1063611932160",
+    "project_id": "explorebih-fbff0",
+    "storage_bucket": "explorebih-fbff0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1063611932160:android:586cf57c16787f04ea82e5",
+        "android_client_info": {
+          "package_name": "com.example.visitbih_mobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1063611932160-0734plm2080o6a9df97tcv7thi2p3hh8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB6NSwQAMaJi4q53p8gLKeNKsylbAHbXiM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1063611932160-0734plm2080o6a9df97tcv7thi2p3hh8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

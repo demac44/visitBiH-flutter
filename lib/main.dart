@@ -3,8 +3,23 @@ import 'interactive_map.dart';
 import "articles.dart";
 import 'about.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import "package:flutter_local_notifications/flutter_local_notifications.dart";
 
-void main() {
+// Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+//   // If you're going to use other Firebase services in the background, such as Firestore,
+//   // make sure you call `initializeApp` before using other Firebase services.
+//   await Firebase.initializeApp();
+
+//   print("Handling a background message: ${message.messageId}");
+// }
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
     theme: ThemeData(fontFamily: 'Raleway'),
@@ -24,6 +39,21 @@ class App extends StatefulWidget {
 class _AppState extends State<App> {
   int currentIndex = 0;
 
+  FirebaseMessaging messaging = FirebaseMessaging.instance;
+  late FlutterLocalNotificationsPlugin fltNotification;
+
+  void pushFCMtoken() async {
+    String? token = await messaging.getToken();
+    print(token);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    pushFCMtoken();
+    initMessaging();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,6 +66,31 @@ class _AppState extends State<App> {
       ),
       bottomNavigationBar: const Navbar(index: 0),
       body: const Home(),
+    );
+  }
+
+  void initMessaging() {
+    var androiInit =
+        const AndroidInitializationSettings('mipmap/launcher_icon');
+    var iosInit = const IOSInitializationSettings();
+    var initSetting = InitializationSettings(android: androiInit, iOS: iosInit);
+    fltNotification = FlutterLocalNotificationsPlugin();
+    fltNotification.initialize(initSetting);
+    var androidDetails = const AndroidNotificationDetails(
+        '1', 'notification-channel',
+        channelDescription: 'channelDescription');
+    var iosDetails = const IOSNotificationDetails();
+    var generalNotificationDetails =
+        NotificationDetails(android: androidDetails, iOS: iosDetails);
+    FirebaseMessaging.onMessage.listen(
+      (RemoteMessage message) {
+        RemoteNotification? notification = message.notification;
+        AndroidNotification? android = message.notification?.android;
+        if (notification != null && android != null) {
+          fltNotification.show(notification.hashCode, notification.title,
+              notification.body, generalNotificationDetails);
+        }
+      },
     );
   }
 }
