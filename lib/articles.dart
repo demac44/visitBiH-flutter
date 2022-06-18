@@ -14,8 +14,10 @@ class Articles extends StatefulWidget {
 
 class _ArticlesState extends State<Articles> {
   late Future<void> futureData;
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   int currentIndex = 2;
+  String category = "latest";
   var data;
 
   Future<dynamic> fetchData() async {
@@ -61,6 +63,81 @@ class _ArticlesState extends State<Articles> {
                     top: 0, left: 5.0, right: 5.0, bottom: 10.0),
                 child: Column(
                   children: [
+                    Container(
+                      color: Colors.black12,
+                      child: Form(
+                        key: _formKey,
+                        child: TextFormField(
+                          decoration: const InputDecoration(
+                              hintText: 'Search',
+                              contentPadding: EdgeInsets.all(5.0)),
+                          validator: (String? value) {
+                            if (value == null || value.isEmpty) {
+                              return;
+                            }
+                            return null;
+                          },
+                        ),
+                      ),
+                    ),
+                    Container(
+                      height: 40,
+                      width: MediaQuery.of(context).size.width,
+                      child: Row(
+                        children: [
+                          Container(
+                            decoration: BoxDecoration(
+                                color: category == "latest"
+                                    ? Colors.black26
+                                    : Colors.black12),
+                            width: MediaQuery.of(context).size.width / 2 - 5,
+                            height: 40,
+                            child: GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  if (category != "latest") {
+                                    category = "latest";
+                                    return;
+                                  } else {
+                                    return;
+                                  }
+                                });
+                              },
+                              child: const Center(
+                                child: Text(
+                                  "LATEST",
+                                ),
+                              ),
+                            ),
+                          ),
+                          Container(
+                            decoration: BoxDecoration(
+                                color: category == "popular"
+                                    ? Colors.black26
+                                    : Colors.black12),
+                            width: MediaQuery.of(context).size.width / 2 - 5,
+                            height: 40,
+                            child: GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  if (category != "popular") {
+                                    category = "popular";
+                                    return;
+                                  } else {
+                                    return;
+                                  }
+                                });
+                              },
+                              child: const Center(
+                                child: Text(
+                                  "POPULAR",
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                     const ArticlesAd(),
                     for (var item in data)
                       Container(

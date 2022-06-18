@@ -103,7 +103,7 @@ class _AboutState extends State<About> {
                                 language == "english"
                                     ? "OPEN IN BROWSER"
                                     : "OTVORI U PRETRAŽIVAČU",
-                                style: const TextStyle(fontSize: 18),
+                                style: const TextStyle(fontSize: 16),
                               ),
                             ),
                           ),
