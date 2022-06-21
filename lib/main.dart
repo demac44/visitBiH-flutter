@@ -7,8 +7,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import "package:flutter_local_notifications/flutter_local_notifications.dart";
 
-
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -217,7 +215,7 @@ class _HomeState extends State<Home> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const Articles(),
+                      builder: (context) => const LatestArticles(),
                     ),
                   );
                 },
@@ -316,7 +314,7 @@ class _NavbarState extends State<Navbar> {
                 context,
                 PageRouteBuilder(
                   pageBuilder: (context, animation1, animation2) =>
-                      const Articles(),
+                      const LatestArticles(),
                   transitionDuration: Duration.zero,
                   reverseTransitionDuration: Duration.zero,
                 ));

@@ -5,14 +5,14 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:url_launcher/url_launcher.dart';
 
-class Articles extends StatefulWidget {
-  const Articles({Key? key}) : super(key: key);
+class LatestArticles extends StatefulWidget {
+  const LatestArticles({Key? key}) : super(key: key);
 
   @override
-  State<Articles> createState() => _ArticlesState();
+  State<LatestArticles> createState() => _LatestArticlesState();
 }
 
-class _ArticlesState extends State<Articles> {
+class _LatestArticlesState extends State<LatestArticles> {
   late Future<void> futureData;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -21,7 +21,225 @@ class _ArticlesState extends State<Articles> {
   var data;
 
   Future<dynamic> fetchData() async {
-    var url = Uri.parse('http://www.visitbosna.com/api/articles/all');
+    var url = Uri.parse('http://www.visitbosna.com/api/articles/latest');
+    try {
+      var response = await http.get(url);
+      if (response.statusCode == 200) {
+        return json.decode(response.body);
+      } else {
+        throw "Network connection error!";
+      }
+    } catch (e) {
+      throw "Network connection error!";
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    futureData = fetchData();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(language == "english" ? "Latest" : "Najnovije"),
+        backgroundColor: const Color.fromARGB(255, 139, 35, 35),
+        automaticallyImplyLeading: false,
+      ),
+      bottomNavigationBar: const Navbar(index: 2),
+      body: FutureBuilder(
+        future: futureData,
+        builder: (context, snaphsot) {
+          if (snaphsot.hasData) {
+            if (snaphsot.data != null) data = snaphsot.data;
+            return SingleChildScrollView(
+              padding: const EdgeInsets.only(
+                  top: 0, left: 5.0, right: 5.0, bottom: 10.0),
+              child: Column(
+                children: [
+                  Container(
+                    color: Colors.black12,
+                    child: Form(
+                      key: _formKey,
+                      child: TextFormField(
+                        decoration: InputDecoration(
+                          hintText:
+                              language == "english" ? 'Search' : "Pretraga",
+                          contentPadding: const EdgeInsets.all(5.0),
+                        ),
+                        validator: (String? value) {
+                          if (value == null || value.isEmpty) {
+                            return;
+                          }
+                          return null;
+                        },
+                        onFieldSubmitted: (String value) {
+                          Navigator.push(
+                              context,
+                              PageRouteBuilder(
+                                pageBuilder:
+                                    (context, animation1, animation2) =>
+                                        SearchArticles(query: value),
+                                transitionDuration: Duration.zero,
+                                reverseTransitionDuration: Duration.zero,
+                              ));
+                        },
+                      ),
+                    ),
+                  ),
+                  Container(
+                    height: 40,
+                    width: MediaQuery.of(context).size.width,
+                    child: Row(
+                      children: [
+                        Container(
+                          color: const Color.fromARGB(255, 71, 128, 123),
+                          width: MediaQuery.of(context).size.width / 2 - 5,
+                          height: 40,
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  PageRouteBuilder(
+                                    pageBuilder:
+                                        (context, animation1, animation2) =>
+                                            const LatestArticles(),
+                                    transitionDuration: Duration.zero,
+                                    reverseTransitionDuration: Duration.zero,
+                                  ));
+                            },
+                            child: Center(
+                              child: Text(
+                                language == "english" ? "Latest" : "Najnovije",
+                                style: const TextStyle(
+                                    color: Colors.white, fontSize: 16),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          color: const Color.fromARGB(255, 217, 217, 217),
+                          width: MediaQuery.of(context).size.width / 2 - 5,
+                          height: 40,
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  PageRouteBuilder(
+                                    pageBuilder:
+                                        (context, animation1, animation2) =>
+                                            const PopularArticles(),
+                                    transitionDuration: Duration.zero,
+                                    reverseTransitionDuration: Duration.zero,
+                                  ));
+                            },
+                            child: Center(
+                              child: Text(
+                                language == "english"
+                                    ? "Most read"
+                                    : "Najčitanije",
+                                style: const TextStyle(
+                                    color: Colors.black87, fontSize: 16),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const ArticlesAd(),
+                  for (var item in data)
+                    Container(
+                      margin: const EdgeInsets.only(top: 10.0),
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => Article(
+                                ArticleId: item["_id"],
+                                ArticleName: item?["title"]?[language] ?? "",
+                              ),
+                            ),
+                          );
+                        },
+                        child: Stack(
+                          children: [
+                            Container(
+                              foregroundDecoration: BoxDecoration(
+                                  color: Colors.black38,
+                                  borderRadius: BorderRadius.circular(10.0)),
+                              width: double.infinity,
+                              height: 300,
+                              padding: const EdgeInsets.all(5.0),
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  image: DecorationImage(
+                                      image: NetworkImage(item["card_image"] ??
+                                          "https://res.cloudinary.com/de5mm13ux/image/upload/v1655060804/Website%20assets/default-thumbnail_elipwk.jpg"),
+                                      fit: BoxFit.cover)),
+                            ),
+                            SizedBox(
+                              width: double.infinity,
+                              height: 300,
+                              child: Center(
+                                child: Text(
+                                  item["title"]?[language] ?? "",
+                                  style: const TextStyle(
+                                    fontSize: 30,
+                                    color: Colors.white,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                ],
+              ),
+            );
+          } else if (snaphsot.hasError) {
+            return Text("${snaphsot.error}");
+          }
+          return Container(
+            color: Colors.white,
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+            child: Center(
+              child: Image.asset(
+                'assets/images/loader-waiting.gif',
+                width: 200,
+                height: 200,
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
+
+class PopularArticles extends StatefulWidget {
+  const PopularArticles({Key? key}) : super(key: key);
+
+  @override
+  State<PopularArticles> createState() => _PopularArticlesState();
+}
+
+class _PopularArticlesState extends State<PopularArticles> {
+  late Future<void> futureData;
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  int currentIndex = 2;
+  String category = "popular";
+  var data;
+
+  Future<dynamic> fetchData() async {
+    var url = Uri.parse('http://www.visitbosna.com/api/articles/popular');
     try {
       var response = await http.get(url);
       if (response.statusCode == 200) {
@@ -45,170 +263,347 @@ class _ArticlesState extends State<Articles> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          language == "english" ? "Read more" : "Čitaj više",
+          language == "english" ? "Most read" : "Najčitanije",
           style: const TextStyle(fontSize: 25),
         ),
         backgroundColor: const Color.fromARGB(255, 139, 35, 35),
         automaticallyImplyLeading: false,
       ),
       bottomNavigationBar: const Navbar(index: 2),
-      body: Center(
-        child: FutureBuilder(
-          future: futureData,
-          builder: (context, snaphsot) {
-            if (snaphsot.hasData) {
-              if (snaphsot.data != null) data = snaphsot.data;
-              return SingleChildScrollView(
-                padding: const EdgeInsets.only(
-                    top: 0, left: 5.0, right: 5.0, bottom: 10.0),
-                child: Column(
-                  children: [
-                    Container(
-                      color: Colors.black12,
-                      child: Form(
-                        key: _formKey,
-                        child: TextFormField(
-                          decoration: const InputDecoration(
-                              hintText: 'Search',
-                              contentPadding: EdgeInsets.all(5.0)),
-                          validator: (String? value) {
-                            if (value == null || value.isEmpty) {
-                              return;
-                            }
-                            return null;
-                          },
+      body: FutureBuilder(
+        future: futureData,
+        builder: (context, snaphsot) {
+          if (snaphsot.hasData) {
+            if (snaphsot.data != null) data = snaphsot.data;
+            return SingleChildScrollView(
+              padding: const EdgeInsets.only(
+                  top: 0, left: 5.0, right: 5.0, bottom: 10.0),
+              child: Column(
+                children: [
+                  Container(
+                    color: Colors.black12,
+                    child: Form(
+                      key: _formKey,
+                      child: TextFormField(
+                        decoration: InputDecoration(
+                          hintText:
+                              language == "english" ? 'Search' : "Pretraga",
+                          contentPadding: const EdgeInsets.all(5.0),
                         ),
-                      ),
-                    ),
-                    Container(
-                      height: 40,
-                      width: MediaQuery.of(context).size.width,
-                      child: Row(
-                        children: [
-                          Container(
-                            decoration: BoxDecoration(
-                                color: category == "latest"
-                                    ? Colors.black26
-                                    : Colors.black12),
-                            width: MediaQuery.of(context).size.width / 2 - 5,
-                            height: 40,
-                            child: GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  if (category != "latest") {
-                                    category = "latest";
-                                    return;
-                                  } else {
-                                    return;
-                                  }
-                                });
-                              },
-                              child: const Center(
-                                child: Text(
-                                  "LATEST",
-                                ),
-                              ),
-                            ),
-                          ),
-                          Container(
-                            decoration: BoxDecoration(
-                                color: category == "popular"
-                                    ? Colors.black26
-                                    : Colors.black12),
-                            width: MediaQuery.of(context).size.width / 2 - 5,
-                            height: 40,
-                            child: GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  if (category != "popular") {
-                                    category = "popular";
-                                    return;
-                                  } else {
-                                    return;
-                                  }
-                                });
-                              },
-                              child: const Center(
-                                child: Text(
-                                  "POPULAR",
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const ArticlesAd(),
-                    for (var item in data)
-                      Container(
-                        margin: const EdgeInsets.only(top: 10.0),
-                        child: GestureDetector(
-                          onTap: () {
-                            Navigator.push(
+                        validator: (String? value) {
+                          if (value == null || value.isEmpty) {
+                            return;
+                          }
+                          return null;
+                        },
+                        onFieldSubmitted: (String value) {
+                          Navigator.push(
                               context,
-                              MaterialPageRoute(
-                                builder: (context) => Article(
-                                  ArticleId: item["_id"],
-                                  ArticleName: item?["title"]?[language] ?? "",
-                                ),
+                              PageRouteBuilder(
+                                pageBuilder:
+                                    (context, animation1, animation2) =>
+                                        SearchArticles(query: value),
+                                transitionDuration: Duration.zero,
+                                reverseTransitionDuration: Duration.zero,
+                              ));
+                        },
+                      ),
+                    ),
+                  ),
+                  Container(
+                    height: 40,
+                    width: MediaQuery.of(context).size.width,
+                    child: Row(
+                      children: [
+                        Container(
+                          color: const Color.fromARGB(255, 217, 217, 217),
+                          width: MediaQuery.of(context).size.width / 2 - 5,
+                          height: 40,
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  PageRouteBuilder(
+                                    pageBuilder:
+                                        (context, animation1, animation2) =>
+                                            const LatestArticles(),
+                                    transitionDuration: Duration.zero,
+                                    reverseTransitionDuration: Duration.zero,
+                                  ));
+                            },
+                            child: Center(
+                              child: Text(
+                                language == "english" ? "Latest" : "Najnovije",
+                                style: const TextStyle(
+                                    color: Colors.black87, fontSize: 16),
                               ),
-                            );
-                          },
-                          child: Stack(
-                            children: [
-                              Container(
-                                foregroundDecoration: BoxDecoration(
-                                    color: Colors.black38,
-                                    borderRadius: BorderRadius.circular(10.0)),
-                                width: double.infinity,
-                                height: 300,
-                                padding: const EdgeInsets.all(5.0),
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10.0),
-                                    image: DecorationImage(
-                                        image: NetworkImage(item[
-                                                "card_image"] ??
-                                            "https://res.cloudinary.com/de5mm13ux/image/upload/v1655060804/Website%20assets/default-thumbnail_elipwk.jpg"),
-                                        fit: BoxFit.cover)),
-                              ),
-                              SizedBox(
-                                width: double.infinity,
-                                height: 300,
-                                child: Center(
-                                  child: Text(
-                                    item["title"]?[language] ?? "",
-                                    style: const TextStyle(
-                                      fontSize: 30,
-                                      color: Colors.white,
-                                    ),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                ),
-                              )
-                            ],
+                            ),
                           ),
                         ),
+                        Container(
+                          color: const Color.fromARGB(255, 71, 128, 123),
+                          width: MediaQuery.of(context).size.width / 2 - 5,
+                          height: 40,
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  PageRouteBuilder(
+                                    pageBuilder:
+                                        (context, animation1, animation2) =>
+                                            const PopularArticles(),
+                                    transitionDuration: Duration.zero,
+                                    reverseTransitionDuration: Duration.zero,
+                                  ));
+                            },
+                            child: Center(
+                              child: Text(
+                                language == "english"
+                                    ? "Most read"
+                                    : "Najčitanije",
+                                style: const TextStyle(
+                                    color: Colors.white, fontSize: 16),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const ArticlesAd(),
+                  for (var item in data)
+                    Container(
+                      margin: const EdgeInsets.only(top: 10.0),
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => Article(
+                                ArticleId: item["_id"],
+                                ArticleName: item?["title"]?[language] ?? "",
+                              ),
+                            ),
+                          );
+                        },
+                        child: Stack(
+                          children: [
+                            Container(
+                              foregroundDecoration: BoxDecoration(
+                                  color: Colors.black38,
+                                  borderRadius: BorderRadius.circular(10.0)),
+                              width: double.infinity,
+                              height: 300,
+                              padding: const EdgeInsets.all(5.0),
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  image: DecorationImage(
+                                      image: NetworkImage(item["card_image"] ??
+                                          "https://res.cloudinary.com/de5mm13ux/image/upload/v1655060804/Website%20assets/default-thumbnail_elipwk.jpg"),
+                                      fit: BoxFit.cover)),
+                            ),
+                            SizedBox(
+                              width: double.infinity,
+                              height: 300,
+                              child: Center(
+                                child: Text(
+                                  item["title"]?[language] ?? "",
+                                  style: const TextStyle(
+                                    fontSize: 30,
+                                    color: Colors.white,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
                       ),
-                  ],
-                ),
-              );
-            } else if (snaphsot.hasError) {
-              return Text("${snaphsot.error}");
-            }
-            return Container(
-              color: Colors.white,
-              height: MediaQuery.of(context).size.height,
-              width: MediaQuery.of(context).size.width,
-              child: Center(
-                child: Image.asset(
-                  'assets/images/loader-waiting.gif',
-                  width: 200,
-                  height: 200,
-                ),
+                    ),
+                ],
               ),
             );
-          },
+          } else if (snaphsot.hasError) {
+            return Text("${snaphsot.error}");
+          }
+          return Container(
+            color: Colors.white,
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+            child: Center(
+              child: Image.asset(
+                'assets/images/loader-waiting.gif',
+                width: 200,
+                height: 200,
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
+
+class SearchArticles extends StatefulWidget {
+  const SearchArticles({Key? key, required this.query}) : super(key: key);
+
+  final query;
+
+  @override
+  State<SearchArticles> createState() => _SearchArticlesState();
+}
+
+class _SearchArticlesState extends State<SearchArticles> {
+  late Future<void> futureData;
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  @override
+  SearchArticles get widget => super.widget;
+
+  int currentIndex = 2;
+  var data;
+
+  Future<dynamic> fetchData() async {
+    var url = Uri.parse('http://www.visitbosna.com/api/articles/search');
+    try {
+      var response = await http.post(url, body: {"query": widget.query});
+      if (response.statusCode == 200) {
+        return json.decode(response.body);
+      } else {
+        throw "Network connection error!";
+      }
+    } catch (e) {
+      throw "Network connection error!";
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    futureData = fetchData();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          language == "english" ? "Search" : "Pretraga",
+          style: const TextStyle(fontSize: 25),
         ),
+        backgroundColor: const Color.fromARGB(255, 139, 35, 35),
+        automaticallyImplyLeading: true,
+      ),
+      bottomNavigationBar: const Navbar(index: 2),
+      body: FutureBuilder(
+        future: futureData,
+        builder: (context, snaphsot) {
+          if (snaphsot.hasData) {
+            if (snaphsot.data != null) data = snaphsot.data;
+            return SingleChildScrollView(
+              padding: const EdgeInsets.only(
+                  top: 0, left: 5.0, right: 5.0, bottom: 10.0),
+              child: Column(
+                children: [
+                  Container(
+                    color: Colors.black12,
+                    child: Form(
+                      key: _formKey,
+                      child: TextFormField(
+                        decoration: InputDecoration(
+                          hintText:
+                              language == "english" ? 'Search' : "Pretraga",
+                          contentPadding: const EdgeInsets.all(5.0),
+                        ),
+                        validator: (String? value) {
+                          if (value == null || value.isEmpty) {
+                            return;
+                          }
+                          return null;
+                        },
+                        onFieldSubmitted: (String value) {
+                          Navigator.push(
+                              context,
+                              PageRouteBuilder(
+                                pageBuilder:
+                                    (context, animation1, animation2) =>
+                                        SearchArticles(query: value),
+                                transitionDuration: Duration.zero,
+                                reverseTransitionDuration: Duration.zero,
+                              ));
+                        },
+                      ),
+                    ),
+                  ),
+                  const ArticlesAd(),
+                  for (var item in data)
+                    Container(
+                      margin: const EdgeInsets.only(top: 10.0),
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => Article(
+                                ArticleId: item["_id"],
+                                ArticleName: item?["title"]?[language] ?? "",
+                              ),
+                            ),
+                          );
+                        },
+                        child: Stack(
+                          children: [
+                            Container(
+                              foregroundDecoration: BoxDecoration(
+                                  color: Colors.black38,
+                                  borderRadius: BorderRadius.circular(10.0)),
+                              width: double.infinity,
+                              height: 300,
+                              padding: const EdgeInsets.all(5.0),
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  image: DecorationImage(
+                                      image: NetworkImage(item["card_image"] ??
+                                          "https://res.cloudinary.com/de5mm13ux/image/upload/v1655060804/Website%20assets/default-thumbnail_elipwk.jpg"),
+                                      fit: BoxFit.cover)),
+                            ),
+                            SizedBox(
+                              width: double.infinity,
+                              height: 300,
+                              child: Center(
+                                child: Text(
+                                  item["title"]?[language] ?? "",
+                                  style: const TextStyle(
+                                    fontSize: 30,
+                                    color: Colors.white,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                ],
+              ),
+            );
+          } else if (snaphsot.hasError) {
+            return Text("${snaphsot.error}");
+          }
+          return Container(
+            color: Colors.white,
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+            child: Center(
+              child: Image.asset(
+                'assets/images/loader-waiting.gif',
+                width: 200,
+                height: 200,
+              ),
+            ),
+          );
+        },
       ),
     );
   }
