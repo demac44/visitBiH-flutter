@@ -89,27 +89,27 @@ class _LatestArticlesState extends State<LatestArticles> {
                       ),
                     ),
                   ),
-                  Container(
+                  SizedBox(
                     height: 40,
                     width: MediaQuery.of(context).size.width,
                     child: Row(
                       children: [
-                        Container(
-                          color: const Color.fromARGB(255, 71, 128, 123),
-                          width: MediaQuery.of(context).size.width / 2 - 5,
-                          height: 40,
-                          child: GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  PageRouteBuilder(
-                                    pageBuilder:
-                                        (context, animation1, animation2) =>
-                                            const LatestArticles(),
-                                    transitionDuration: Duration.zero,
-                                    reverseTransitionDuration: Duration.zero,
-                                  ));
-                            },
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                PageRouteBuilder(
+                                  pageBuilder:
+                                      (context, animation1, animation2) =>
+                                          const LatestArticles(),
+                                  transitionDuration: Duration.zero,
+                                  reverseTransitionDuration: Duration.zero,
+                                ));
+                          },
+                          child: Container(
+                            color: const Color.fromARGB(255, 71, 128, 123),
+                            width: MediaQuery.of(context).size.width / 2 - 5,
+                            height: 40,
                             child: Center(
                               child: Text(
                                 language == "english" ? "Latest" : "Najnovije",
@@ -119,22 +119,22 @@ class _LatestArticlesState extends State<LatestArticles> {
                             ),
                           ),
                         ),
-                        Container(
-                          color: const Color.fromARGB(255, 217, 217, 217),
-                          width: MediaQuery.of(context).size.width / 2 - 5,
-                          height: 40,
-                          child: GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  PageRouteBuilder(
-                                    pageBuilder:
-                                        (context, animation1, animation2) =>
-                                            const PopularArticles(),
-                                    transitionDuration: Duration.zero,
-                                    reverseTransitionDuration: Duration.zero,
-                                  ));
-                            },
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                PageRouteBuilder(
+                                  pageBuilder:
+                                      (context, animation1, animation2) =>
+                                          const PopularArticles(),
+                                  transitionDuration: Duration.zero,
+                                  reverseTransitionDuration: Duration.zero,
+                                ));
+                          },
+                          child: Container(
+                            color: const Color.fromARGB(255, 217, 217, 217),
+                            width: MediaQuery.of(context).size.width / 2 - 5,
+                            height: 40,
                             child: Center(
                               child: Text(
                                 language == "english"
@@ -310,52 +310,52 @@ class _PopularArticlesState extends State<PopularArticles> {
                       ),
                     ),
                   ),
-                  Container(
+                  SizedBox(
                     height: 40,
                     width: MediaQuery.of(context).size.width,
                     child: Row(
                       children: [
-                        Container(
-                          color: const Color.fromARGB(255, 217, 217, 217),
-                          width: MediaQuery.of(context).size.width / 2 - 5,
-                          height: 40,
-                          child: GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  PageRouteBuilder(
-                                    pageBuilder:
-                                        (context, animation1, animation2) =>
-                                            const LatestArticles(),
-                                    transitionDuration: Duration.zero,
-                                    reverseTransitionDuration: Duration.zero,
-                                  ));
-                            },
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                PageRouteBuilder(
+                                  pageBuilder:
+                                      (context, animation1, animation2) =>
+                                          const LatestArticles(),
+                                  transitionDuration: Duration.zero,
+                                  reverseTransitionDuration: Duration.zero,
+                                ));
+                          },
+                          child: Container(
+                            color: const Color.fromARGB(255, 217, 217, 217),
+                            width: MediaQuery.of(context).size.width / 2 - 5,
+                            height: 40,
                             child: Center(
                               child: Text(
                                 language == "english" ? "Latest" : "Najnovije",
                                 style: const TextStyle(
-                                    color: Colors.black87, fontSize: 16),
+                                    color: Colors.black, fontSize: 16),
                               ),
                             ),
                           ),
                         ),
-                        Container(
-                          color: const Color.fromARGB(255, 71, 128, 123),
-                          width: MediaQuery.of(context).size.width / 2 - 5,
-                          height: 40,
-                          child: GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  PageRouteBuilder(
-                                    pageBuilder:
-                                        (context, animation1, animation2) =>
-                                            const PopularArticles(),
-                                    transitionDuration: Duration.zero,
-                                    reverseTransitionDuration: Duration.zero,
-                                  ));
-                            },
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                PageRouteBuilder(
+                                  pageBuilder:
+                                      (context, animation1, animation2) =>
+                                          const PopularArticles(),
+                                  transitionDuration: Duration.zero,
+                                  reverseTransitionDuration: Duration.zero,
+                                ));
+                          },
+                          child: Container(
+                            color: const Color.fromARGB(255, 71, 128, 123),
+                            width: MediaQuery.of(context).size.width / 2 - 5,
+                            height: 40,
                             child: Center(
                               child: Text(
                                 language == "english"
@@ -521,8 +521,9 @@ class _SearchArticlesState extends State<SearchArticles> {
                           }
                           return null;
                         },
+                        initialValue: widget.query,
                         onFieldSubmitted: (String value) {
-                          Navigator.push(
+                          Navigator.pushReplacement(
                               context,
                               PageRouteBuilder(
                                 pageBuilder:
