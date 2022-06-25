@@ -837,21 +837,24 @@ class _ArticlesAdState extends State<ArticlesAd> {
               child: Stack(
                 children: [
                   Container(
+                    margin: const EdgeInsets.only(top: 10),
                     width: MediaQuery.of(context).size.width,
                     height: 150,
                     color: const Color.fromARGB(255, 245, 245, 245),
                     child: Image.network(
                       data?["image"],
+                      fit: BoxFit.cover,
                       errorBuilder: (context, error, stackTrace) {
                         return const SizedBox(height: 0);
                       },
                     ),
                   ),
-                  const Text(
-                    "AD",
-                    style: TextStyle(
-                        backgroundColor: Color.fromARGB(255, 255, 230, 0)),
-                  ),
+                  Container(
+                    margin: const EdgeInsets.only(top: 10),
+                    color: const Color.fromARGB(255, 255, 208, 0),
+                    padding: const EdgeInsets.all(3.0),
+                    child: const Text("AD"),
+                  )
                 ],
               ),
             );
@@ -889,7 +892,9 @@ class _ArticleAdState extends State<ArticleAd> {
 
   @override
   Widget build(BuildContext context) {
-    if (widget.ad?["image"] != null && widget.ad?["image"] != "") {
+    if (widget.ad?["image"] != null &&
+        widget.ad?["image"] != "" &&
+        widget.ad?["showAd"] == true) {
       return GestureDetector(
         onTap: () {
           _launchUrl(widget.ad?["url"] ?? "http://www.visitbosna.com");
@@ -897,21 +902,24 @@ class _ArticleAdState extends State<ArticleAd> {
         child: Stack(
           children: [
             Container(
-              width: MediaQuery.of(context).size.width,
+              margin: const EdgeInsets.only(top: 5),
+              width: MediaQuery.of(context).size.width - 10,
               height: 100,
               color: const Color.fromARGB(255, 245, 245, 245),
               child: Image.network(
                 widget.ad?["image"],
+                fit: BoxFit.cover,
                 errorBuilder: (context, error, stackTrace) {
                   return const SizedBox(height: 0);
                 },
               ),
             ),
-            const Text(
-              "AD",
-              style:
-                  TextStyle(backgroundColor: Color.fromARGB(255, 255, 230, 0)),
-            ),
+            Container(
+              margin: const EdgeInsets.only(top: 5),
+              color: const Color.fromARGB(255, 255, 208, 0),
+              padding: const EdgeInsets.all(3.0),
+              child: const Text("AD"),
+            )
           ],
         ),
       );

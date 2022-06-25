@@ -411,16 +411,17 @@ class _RegionAdState extends State<RegionAd> {
                   color: const Color.fromARGB(255, 245, 245, 245),
                   child: Image.network(
                     data?["image"],
+                    fit: BoxFit.cover,
                     errorBuilder: (context, error, stackTrace) {
                       return const SizedBox(height: 0);
                     },
                   ),
                 ),
-                const Text(
-                  "AD",
-                  style: TextStyle(
-                      backgroundColor: Color.fromARGB(255, 255, 230, 0)),
-                ),
+                Container(
+                  color: const Color.fromARGB(255, 255, 208, 0),
+                  padding: const EdgeInsets.all(3.0),
+                  child: const Text("AD"),
+                )
               ],
             ),
           );
@@ -455,7 +456,9 @@ class _PlaceAdState extends State<PlaceAd> {
 
   @override
   Widget build(BuildContext context) {
-    if (widget.ad?["image"] != null && widget.ad?["image"] != "") {
+    if (widget.ad?["image"] != null &&
+        widget.ad?["image"] != "" &&
+        widget.ad?["showAd"] == true) {
       return GestureDetector(
         onTap: () {
           _launchUrl(widget.ad?["url"] ?? "http://www.visitbosna.com");
@@ -465,19 +468,20 @@ class _PlaceAdState extends State<PlaceAd> {
             Container(
               color: const Color.fromARGB(255, 245, 245, 245),
               width: MediaQuery.of(context).size.width,
-              height: 100,
+              height: 120,
               child: Image.network(
                 widget.ad?["image"],
+                fit: BoxFit.cover,
                 errorBuilder: (context, error, stackTrace) {
                   return const SizedBox(height: 0);
                 },
               ),
             ),
-            const Text(
-              "AD",
-              style:
-                  TextStyle(backgroundColor: Color.fromARGB(255, 255, 230, 0)),
-            ),
+            Container(
+              color: const Color.fromARGB(255, 255, 208, 0),
+              padding: const EdgeInsets.all(3.0),
+              child: const Text("AD"),
+            )
           ],
         ),
       );
