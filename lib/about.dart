@@ -1,6 +1,4 @@
 import 'dart:async';
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'main.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -58,7 +56,7 @@ class _AboutState extends State<About> {
                     top: 20.0, bottom: 20.0, left: 10.0, right: 10.0),
                 decoration: BoxDecoration(
                   color: Colors.black26,
-                  borderRadius: BorderRadius.circular(15.0),
+                  borderRadius: BorderRadius.circular(10.0),
                 ),
                 child: Column(
                   children: [
@@ -111,7 +109,7 @@ class _AboutState extends State<About> {
                     top: 20.0, bottom: 20.0, left: 10.0, right: 10.0),
                 decoration: BoxDecoration(
                   color: Colors.black26,
-                  borderRadius: BorderRadius.circular(15.0),
+                  borderRadius: BorderRadius.circular(10.0),
                 ),
                 child: Column(
                   children: [
@@ -196,6 +194,20 @@ class _AboutState extends State<About> {
                     ),
                   ],
                 ),
+              ),
+              Container(
+                width: MediaQuery.of(context).size.width,
+                margin: const EdgeInsets.only(top: 20.0),
+                padding: const EdgeInsets.only(
+                    right: 5.0, left: 5.0, top: 20.0, bottom: 20.0),
+                decoration: BoxDecoration(
+                  color: Colors.black26,
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                child: const Text(
+                    "© Copyright VisitBiH 2022. All rights reserved.",
+                    style: TextStyle(color: Colors.white, fontSize: 16),
+                    textAlign: TextAlign.center),
               ),
             ],
           ),

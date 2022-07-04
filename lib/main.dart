@@ -198,11 +198,19 @@ class _HomeState extends State<Home> {
                     primary: const Color.fromARGB(0, 255, 255, 255),
                     side: const BorderSide(
                         width: 1.0, color: Color.fromARGB(255, 49, 49, 49))),
-                child: Text(
-                  language == "english"
-                      ? "START EXPLORING"
-                      : "ZAPOČNI ISTRAŽIVANJE",
-                  style: const TextStyle(fontSize: 18),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Icon(Icons.explore),
+                    const SizedBox(width: 5),
+                    Text(
+                      language == "english"
+                          ? "START EXPLORING"
+                          : "ZAPOČNI ISTRAŽIVANJE",
+                      style: const TextStyle(fontSize: 18),
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -223,11 +231,19 @@ class _HomeState extends State<Home> {
                     primary: const Color.fromARGB(0, 255, 255, 255),
                     side: const BorderSide(
                         width: 1.0, color: Color.fromARGB(255, 50, 50, 50))),
-                child: Text(
-                  language == "english"
-                      ? "READ MORE ABOUT B&H"
-                      : "ČITAJ VIŠE O BIH",
-                  style: const TextStyle(fontSize: 18),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Icon(Icons.newspaper),
+                    const SizedBox(width: 5),
+                    Text(
+                      language == "english"
+                          ? "READ MORE ABOUT B&H"
+                          : "ČITAJ VIŠE O BIH",
+                      style: const TextStyle(fontSize: 18),
+                    ),
+                  ],
                 ),
               ),
             ),

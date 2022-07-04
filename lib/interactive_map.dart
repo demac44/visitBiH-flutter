@@ -1,12 +1,9 @@
 import 'dart:ui' as ui;
-
 import 'package:flutter/material.dart';
 import 'package:path_drawing/path_drawing.dart';
 import 'package:visitbih_mobile/places.dart';
 import "main.dart";
 import 'places.dart';
-import "articles.dart";
-import 'about.dart';
 
 String region = "";
 String previousRegion = "";
@@ -146,6 +143,7 @@ class InteractiveMapPainter extends CustomPainter {
     canvas
       ..clipRect(Offset.zero & size)
       ..drawColor(const ui.Color.fromARGB(255, 74, 91, 138), BlendMode.src);
+    // ignore: prefer_typing_uninitialized_variables
     var selectedShape;
     for (var shape in _shapes) {
       final path = shape._transformedPath;
