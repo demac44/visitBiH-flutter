@@ -53,24 +53,31 @@ class _AboutState extends State<About> {
               const SizedBox(height: 40),
               Container(
                 padding: const EdgeInsets.only(
-                    top: 20.0, bottom: 20.0, left: 10.0, right: 10.0),
+                    top: 10.0, bottom: 20.0, left: 10.0, right: 10.0),
                 decoration: BoxDecoration(
                   color: Colors.black26,
                   borderRadius: BorderRadius.circular(10.0),
                 ),
                 child: Column(
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Icon(Icons.web, color: Colors.white),
-                        const SizedBox(width: 10),
-                        Text(
-                          language == "english" ? "WEBSITE" : "WEB STRANICA",
-                          style: const TextStyle(
-                              fontSize: 26, color: Colors.white),
-                        ),
-                      ],
+                    Container(
+                      padding: const EdgeInsets.all(10.0),
+                      decoration: BoxDecoration(
+                        color: Colors.black26,
+                        borderRadius: BorderRadius.circular(5.0),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Icon(Icons.web, color: Colors.white),
+                          const SizedBox(width: 10),
+                          Text(
+                            language == "english" ? "WEBSITE" : "WEB STRANICA",
+                            style: const TextStyle(
+                                fontSize: 26, color: Colors.white),
+                          ),
+                        ],
+                      ),
                     ),
                     const SizedBox(height: 20),
                     SizedBox(
@@ -105,24 +112,30 @@ class _AboutState extends State<About> {
               ),
               const SizedBox(height: 20),
               Container(
-                padding: const EdgeInsets.only(
-                    top: 20.0, bottom: 20.0, left: 10.0, right: 10.0),
+                padding: const EdgeInsets.all(10.0),
                 decoration: BoxDecoration(
                   color: Colors.black26,
                   borderRadius: BorderRadius.circular(10.0),
                 ),
                 child: Column(
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Icon(Icons.contact_page_outlined,
-                            color: Colors.white),
-                        const SizedBox(width: 15),
-                        Text(language == "english" ? "CONTACT" : "KONTAKT",
-                            style: const TextStyle(
-                                fontSize: 26, color: Colors.white)),
-                      ],
+                    Container(
+                      padding: const EdgeInsets.all(10.0),
+                      decoration: BoxDecoration(
+                        color: Colors.black26,
+                        borderRadius: BorderRadius.circular(5.0),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Icon(Icons.contact_page_outlined,
+                              color: Colors.white),
+                          const SizedBox(width: 15),
+                          Text(language == "english" ? "CONTACT" : "KONTAKT",
+                              style: const TextStyle(
+                                  fontSize: 26, color: Colors.white)),
+                        ],
+                      ),
                     ),
                     const SizedBox(height: 20),
                     Row(
@@ -137,55 +150,90 @@ class _AboutState extends State<About> {
                       ],
                     ),
                     Container(
-                      margin: const EdgeInsets.only(top: 30),
+                      margin: const EdgeInsets.only(top: 20),
                       child: Column(
                         children: [
-                          Text(
-                            language == "english"
-                                ? "SEND MESSAGE"
-                                : "POŠALJI PORUKU",
-                            style: const TextStyle(
-                                color: Colors.white, fontSize: 18),
-                          ),
-                          const SizedBox(height: 10),
                           if (messageSent)
-                            Text(
-                              language == "english"
-                                  ? "Message sent!"
-                                  : "Poruka poslana!",
-                              style: const TextStyle(
-                                  color: Colors.white, fontSize: 16),
+                            Container(
+                              decoration: BoxDecoration(
+                                color: Colors.green,
+                                borderRadius: BorderRadius.circular(5.0),
+                              ),
+                              padding: const EdgeInsets.only(
+                                  top: 5, bottom: 5, left: 20, right: 20),
+                              margin: const EdgeInsets.all(10.0),
+                              child: Text(
+                                language == "english"
+                                    ? "Message sent"
+                                    : "Poruka poslana",
+                                style: const TextStyle(
+                                    color: Colors.white, fontSize: 16),
+                              ),
                             ),
                           const SizedBox(height: 10),
                           Container(
-                            color: Colors.black12,
+                            decoration: BoxDecoration(
+                              color: Colors.black12,
+                              borderRadius: BorderRadius.circular(5.0),
+                            ),
+                            padding: const EdgeInsets.all(10.0),
                             child: Form(
                               key: _formKey,
-                              child: TextFormField(
-                                decoration: InputDecoration(
-                                  hintStyle:
-                                      const TextStyle(color: Colors.white),
-                                  hintText: language == "english"
-                                      ? 'Message'
-                                      : "Poruka",
-                                  contentPadding: const EdgeInsets.all(5.0),
-                                ),
-                                style: const TextStyle(color: Colors.white),
-                                validator: (String? value) {
-                                  if (value == null || value.isEmpty) {
-                                    return;
-                                  }
-                                  return null;
-                                },
-                                onFieldSubmitted: (String value) {
-                                  _sendMessage(value);
-                                  Timer(const Duration(seconds: 3), () {
-                                    setState(() {
-                                      messageSent = false;
-                                    });
-                                  });
-                                  _formKey.currentState?.reset();
-                                },
+                              child: Column(
+                                children: [
+                                  TextFormField(
+                                    decoration: InputDecoration(
+                                      hintStyle:
+                                          const TextStyle(color: Colors.white),
+                                      hintText: language == "english"
+                                          ? 'Send a message'
+                                          : "Pošalji poruku",
+                                      contentPadding: const EdgeInsets.all(5.0),
+                                    ),
+                                    style: const TextStyle(color: Colors.white),
+                                    validator: (String? value) {
+                                      if (value == null || value.isEmpty) {
+                                        return "Enter the message!";
+                                      }
+                                      return null;
+                                    },
+                                    onSaved: (value) {
+                                      _sendMessage(value);
+                                      Timer(const Duration(seconds: 3), () {
+                                        setState(() {
+                                          messageSent = false;
+                                        });
+                                      });
+                                      _formKey.currentState?.reset();
+                                    },
+                                    onFieldSubmitted: (value) {
+                                      _sendMessage(value);
+                                      Timer(const Duration(seconds: 3), () {
+                                        setState(() {
+                                          messageSent = false;
+                                        });
+                                      });
+                                      _formKey.currentState?.reset();
+                                    },
+                                  ),
+                                  Container(
+                                    width:
+                                        MediaQuery.of(context).size.width - 150,
+                                    padding: const EdgeInsets.only(
+                                        top: 20.0, bottom: 10.0),
+                                    child: ElevatedButton(
+                                      onPressed: () {
+                                        if (_formKey.currentState!.validate()) {
+                                          _formKey.currentState!.save();
+                                        }
+                                      },
+                                      child: const Text(
+                                        'SEND MESSAGE',
+                                        style: TextStyle(fontSize: 16),
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                           ),

@@ -33,15 +33,13 @@ class _AppState extends State<App> {
   FirebaseMessaging messaging = FirebaseMessaging.instance;
   late FlutterLocalNotificationsPlugin fltNotification;
 
-  void pushFCMtoken() async {
-    String? token = await messaging.getToken();
-    print(token);
-  }
+  // void pushFCMtoken() async {
+  //   String? token = await messaging.getToken();
+  // }
 
   @override
   void initState() {
     super.initState();
-    pushFCMtoken();
     initMessaging();
   }
 

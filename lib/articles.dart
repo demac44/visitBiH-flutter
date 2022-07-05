@@ -778,7 +778,46 @@ class _ArticleState extends State<Article> {
                             ),
                           ]),
                         ),
-                      const SizedBox(height: 30.0)
+                      const SizedBox(height: 20.0),
+                      SizedBox(
+                        height: 70,
+                        width: MediaQuery.of(context).size.width - 60,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const LatestArticles(),
+                              ),
+                            );
+                          },
+                          style: ElevatedButton.styleFrom(
+                            primary: Color.fromARGB(255, 255, 183, 0),
+                            side: const BorderSide(
+                              width: 0,
+                              color: Color.fromARGB(0, 0, 0, 0),
+                            ),
+                          ),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Icon(Icons.newspaper),
+                              const SizedBox(width: 5),
+                              Text(
+                                language == "english"
+                                    ? "READ MORE"
+                                    : "ČITAJ VIŠE",
+                                style: const TextStyle(
+                                    fontSize: 18,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 20.0),
                     ],
                   );
                 } else if (snaphsot.hasError) {
